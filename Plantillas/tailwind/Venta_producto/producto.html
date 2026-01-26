@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="es" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Urban Store - Tu Tienda de Confianza</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      font-family: 'Outfit', sans-serif;
+    }
+    
+    .font-mono {
+      font-family: 'Space Mono', monospace;
+    }
+    
+    .product-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .product-card:hover {
+      transform: translateY(-8px);
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .animate-slide-down {
+      animation: slideDown 0.4s ease forwards;
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    .cart-badge {
+      animation: pulse 0.3s ease;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    
+    .gradient-border {
+      position: relative;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2px;
+      border-radius: 1rem;
+    }
+    
+    .gradient-border-content {
+      background: #0f172a;
+      border-radius: calc(1rem - 2px);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="w-full h-full overflow-auto bg-slate-950"><!-- Top Promo Bar -->
+   <div class="bg-gradient-to-r from-violet-600 to-purple-600 text-white py-3 text-center text-sm font-medium"><span id="promo-banner">🎉 Envío GRATIS en compras mayores a $500 | Hasta 12 MSI en productos seleccionados</span>
+   </div><!-- Navigation -->
+   <nav class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-lg border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+     <div class="flex items-center justify-between"><!-- Logo --> <a href="#" class="flex items-center gap-3 group">
+       <div class="w-11 h-11 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center transform group-hover:rotate-6 transition-transform"><span class="text-2xl">🛍️</span>
+       </div>
+       <div><span id="nav-store-name" class="text-xl font-bold text-white block leading-none">Urban Store</span> <span class="text-xs text-slate-400">Tu tienda de confianza</span>
+       </div></a> <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-6"><a href="#productos" class="text-slate-300 hover:text-white transition-colors font-medium">Productos</a> <a href="#ofertas" class="text-slate-300 hover:text-white transition-colors font-medium">Ofertas</a> <a href="#contacto" class="text-slate-300 hover:text-white transition-colors font-medium">Contacto</a>
+      </div><!-- Actions -->
+      <div class="flex items-center gap-4"><button id="search-btn" class="p-2.5 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg></button> <button id="cart-btn" class="relative p-2.5 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg><span id="cart-count" class="hidden absolute -top-1 -right-1 bg-violet-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold cart-badge">0</span> </button> <button id="mobile-menu-btn" class="md:hidden p-2.5 hover:bg-slate-800 rounded-lg transition-colors text-slate-300 hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg></button>
+      </div>
+     </div><!-- Mobile Menu -->
+     <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-slate-800 space-y-3"><a href="#productos" class="block text-slate-300 hover:text-white transition-colors py-2">Productos</a> <a href="#ofertas" class="block text-slate-300 hover:text-white transition-colors py-2">Ofertas</a> <a href="#contacto" class="block text-slate-300 hover:text-white transition-colors py-2">Contacto</a>
+     </div>
+    </div>
+   </nav><!-- Search Bar (Hidden by default) -->
+   <div id="search-bar" class="hidden bg-slate-900 border-b border-slate-800 py-4 animate-slide-down">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="relative"><input type="text" id="search-input" placeholder="Buscar productos..." class="w-full px-5 py-3 pl-12 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-violet-500 transition-colors">
+      <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+     </div>
+    </div>
+   </div><!-- Hero Section -->
+   <section class="relative py-20 md:py-32 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-violet-900/20 via-slate-900 to-purple-900/20"></div>
+    <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 2px 2px, rgba(139, 92, 246, 0.15) 1px, transparent 0); background-size: 32px 32px;"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+     <div class="text-center max-w-4xl mx-auto">
+      <div class="inline-block px-4 py-2 bg-violet-500/20 border border-violet-500/30 rounded-full text-violet-300 text-sm font-medium mb-6">
+       ⚡ Nuevos productos cada semana
+      </div>
+      <h1 id="hero-title" class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">Encuentra Todo lo que <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-purple-400">Necesitas</span></h1>
+      <p id="hero-subtitle" class="text-xl md:text-2xl text-slate-300 mb-10 font-light">Miles de productos con la mejor calidad y precio del mercado</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center"><a href="#productos" class="px-8 py-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-violet-500/50 transition-all"> Ver Catálogo Completo </a> <a href="#ofertas" class="px-8 py-4 border-2 border-slate-700 text-white font-semibold rounded-xl hover:bg-slate-800 transition-all"> 🔥 Ofertas Especiales </a>
+      </div><!-- Trust Badges -->
+      <div class="grid grid-cols-3 gap-6 mt-16 max-w-2xl mx-auto">
+       <div class="text-center">
+        <div class="text-3xl mb-2">
+         ✅
+        </div>
+        <div class="text-sm text-slate-400">
+         Compra Segura
+        </div>
+       </div>
+       <div class="text-center">
+        <div class="text-3xl mb-2">
+         🚚
+        </div>
+        <div class="text-sm text-slate-400">
+         Envío Rápido
+        </div>
+       </div>
+       <div class="text-center">
+        <div class="text-3xl mb-2">
+         🔄
+        </div>
+        <div class="text-sm text-slate-400">
+         Devolución Gratis
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Products Section -->
+   <section id="productos" class="py-20 bg-slate-950">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Nuestros Productos</h2>
+      <p class="text-slate-400 text-lg">Selecciona por categoría o busca lo que necesites</p>
+     </div><!-- Category Filters -->
+     <div class="flex flex-wrap justify-center gap-3 mb-12"><button class="category-btn px-6 py-2.5 rounded-full font-medium transition-all bg-gradient-to-r from-violet-600 to-purple-600 text-white" data-category="all"> Todos </button> <button class="category-btn px-6 py-2.5 rounded-full font-medium transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-category="electronics"> 📱 Electrónica </button> <button class="category-btn px-6 py-2.5 rounded-full font-medium transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-category="fashion"> 👕 Moda </button> <button class="category-btn px-6 py-2.5 rounded-full font-medium transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-category="home"> 🏠 Hogar </button> <button class="category-btn px-6 py-2.5 rounded-full font-medium transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-category="sports"> ⚽ Deportes </button>
+     </div><!-- Products Grid -->
+     <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"><!-- Products will be rendered here -->
+     </div>
+     <div id="no-results" class="hidden text-center py-16">
+      <div class="text-6xl mb-4">
+       🔍
+      </div>
+      <p class="text-xl text-slate-400">No se encontraron productos</p>
+     </div>
+    </div>
+   </section><!-- Benefits Section -->
+   <section class="py-20 bg-slate-900">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="text-center p-8 bg-slate-800/50 rounded-2xl border border-slate-700/50">
+       <div class="w-16 h-16 bg-violet-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+        🚚
+       </div>
+       <h3 class="text-xl font-bold text-white mb-3">Envío Gratis</h3>
+       <p class="text-slate-400">En compras superiores a $500 MXN a toda la república</p>
+      </div>
+      <div class="text-center p-8 bg-slate-800/50 rounded-2xl border border-slate-700/50">
+       <div class="w-16 h-16 bg-violet-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+        🛡️
+       </div>
+       <h3 class="text-xl font-bold text-white mb-3">Garantía Total</h3>
+       <p class="text-slate-400">Todos nuestros productos tienen garantía de 30 días</p>
+      </div>
+      <div class="text-center p-8 bg-slate-800/50 rounded-2xl border border-slate-700/50">
+       <div class="w-16 h-16 bg-violet-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+        💬
+       </div>
+       <h3 class="text-xl font-bold text-white mb-3">Soporte 24/7</h3>
+       <p class="text-slate-400">Nuestro equipo está disponible para ayudarte en todo momento</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contacto" class="py-20 bg-slate-950">
+    <div class="max-w-4xl mx-auto px-6">
+     <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-white mb-4">¿Tienes preguntas?</h2>
+      <p class="text-slate-400 text-lg">Estamos aquí para ayudarte</p>
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="text-center p-6 bg-slate-900 rounded-xl border border-slate-800">
+       <div class="text-3xl mb-3">
+        📧
+       </div>
+       <h4 class="text-white font-semibold mb-2">Email</h4>
+       <p id="contact-email" class="text-slate-400 text-sm">contacto@urbanstore.com</p>
+      </div>
+      <div class="text-center p-6 bg-slate-900 rounded-xl border border-slate-800">
+       <div class="text-3xl mb-3">
+        📞
+       </div>
+       <h4 class="text-white font-semibold mb-2">Teléfono</h4>
+       <p id="contact-phone" class="text-slate-400 text-sm">+52 55 1234 5678</p>
+      </div>
+      <div class="text-center p-6 bg-slate-900 rounded-xl border border-slate-800">
+       <div class="text-3xl mb-3">
+        📍
+       </div>
+       <h4 class="text-white font-semibold mb-2">Dirección</h4>
+       <p id="contact-address" class="text-slate-400 text-sm">Calle Comercio 456, Col. Centro</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="bg-slate-900 border-t border-slate-800 py-12">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+       <div class="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center"><span class="text-xl">🛍️</span>
+       </div>
+       <div><span id="footer-store-name" class="text-lg font-bold text-white block leading-none">Urban Store</span> <span class="text-xs text-slate-500">© 2024 Todos los derechos reservados</span>
+       </div>
+      </div>
+      <div class="flex items-center gap-6"><a href="#" class="text-slate-400 hover:text-white transition-colors">Términos</a> <a href="#" class="text-slate-400 hover:text-white transition-colors">Privacidad</a> <a href="#" class="text-slate-400 hover:text-white transition-colors">Ayuda</a>
+      </div>
+     </div>
+    </div>
+   </footer><!-- Shopping Cart Modal -->
+   <div id="cart-modal" class="hidden fixed inset-0 z-50 animate-fade-in">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" id="cart-backdrop"></div>
+    <div class="absolute right-0 top-0 h-full w-full md:w-[450px] bg-slate-900 shadow-2xl overflow-hidden flex flex-col"><!-- Cart Header -->
+     <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+      <h3 class="text-2xl font-bold text-white">Tu Carrito</h3><button id="close-cart" class="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-white">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div><!-- Cart Items -->
+     <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+      <div id="empty-cart" class="text-center py-16">
+       <div class="text-6xl mb-4">
+        🛒
+       </div>
+       <p class="text-slate-400 text-lg">Tu carrito está vacío</p>
+      </div>
+     </div><!-- Cart Footer -->
+     <div id="cart-footer" class="hidden border-t border-slate-800 p-6 bg-slate-950">
+      <div class="flex items-center justify-between mb-4"><span class="text-slate-400">Subtotal:</span> <span id="cart-subtotal" class="text-2xl font-bold text-white">$0</span>
+      </div><button id="checkout-btn" class="w-full py-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-violet-500/50 transition-all"> Proceder al Pago </button>
+     </div>
+    </div>
+   </div><!-- Checkout Modal -->
+   <div id="checkout-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" id="checkout-backdrop"></div>
+    <div class="relative bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 border border-slate-800">
+     <div class="flex items-center justify-between mb-6">
+      <h3 class="text-2xl font-bold text-white">Finalizar Compra</h3><button id="close-checkout" class="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-white">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <form id="checkout-form" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+       <div><label for="checkout-name" class="block text-white font-medium mb-2">Nombre completo</label> <input type="text" id="checkout-name" required class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 transition-colors" placeholder="Juan Pérez">
+       </div>
+       <div><label for="checkout-email" class="block text-white font-medium mb-2">Email</label> <input type="email" id="checkout-email" required class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 transition-colors" placeholder="tu@email.com">
+       </div>
+      </div>
+      <div><label for="checkout-phone" class="block text-white font-medium mb-2">Teléfono</label> <input type="tel" id="checkout-phone" required class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 transition-colors" placeholder="+52 55 1234 5678">
+      </div>
+      <div><label for="checkout-address" class="block text-white font-medium mb-2">Dirección de envío</label> <textarea id="checkout-address" required rows="3" class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 transition-colors resize-none" placeholder="Calle, número, colonia, ciudad..."></textarea>
+      </div>
+      <div class="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
+       <h4 class="text-white font-semibold mb-4">Resumen del pedido</h4>
+       <div id="checkout-summary" class="space-y-2 mb-4"><!-- Summary items will be added here -->
+       </div>
+       <div class="border-t border-slate-700 pt-4 flex items-center justify-between"><span class="text-slate-300 font-semibold">Total a pagar:</span> <span id="checkout-total" class="text-2xl font-bold text-violet-400">$0</span>
+       </div>
+      </div><button type="submit" class="w-full py-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-violet-500/50 transition-all"> Confirmar Pedido </button>
+     </form><!-- Success Message -->
+     <div id="order-success" class="hidden">
+      <div class="text-center py-12">
+       <div class="text-7xl mb-6">
+        ✅
+       </div>
+       <h4 class="text-3xl font-bold text-white mb-4">¡Pedido Confirmado!</h4>
+       <p class="text-slate-300 mb-8">Recibirás un email de confirmación en breve.<br>
+        Gracias por tu compra.</p><button id="close-success" class="px-8 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-xl transition-all"> Seguir Comprando </button>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      store_name: 'Urban Store',
+      hero_title: 'Encuentra Todo lo que Necesitas',
+      hero_subtitle: 'Miles de productos con la mejor calidad y precio del mercado',
+      promo_banner: '🎉 Envío GRATIS en compras mayores a $500 | Hasta 12 MSI en productos seleccionados',
+      contact_email: 'contacto@urbanstore.com',
+      contact_phone: '+52 55 1234 5678',
+      contact_address: 'Calle Comercio 456, Col. Centro',
+      background_color: '#020617',
+      surface_color: '#1e293b',
+      text_color: '#e2e8f0',
+      primary_action_color: '#7c3aed',
+      secondary_action_color: '#64748b'
+    };
+
+    // Products data
+    const products = [
+      { id: 1, name: 'Auriculares Bluetooth Pro', price: 899, category: 'electronics', emoji: '🎧', description: 'Sonido HD con cancelación de ruido' },
+      { id: 2, name: 'Smartwatch Fitness', price: 1299, category: 'electronics', emoji: '⌚', description: 'Monitor de salud y notificaciones' },
+      { id: 3, name: 'Cámara Web 4K', price: 749, category: 'electronics', emoji: '📷', description: 'Perfecta para streaming y videollamadas' },
+      { id: 4, name: 'Teclado Mecánico RGB', price: 1099, category: 'electronics', emoji: '⌨️', description: 'Switches mecánicos con iluminación' },
+      { id: 5, name: 'Sudadera Premium', price: 599, category: 'fashion', emoji: '👕', description: 'Algodón 100% suave y cómoda' },
+      { id: 6, name: 'Zapatillas Deportivas', price: 1199, category: 'fashion', emoji: '👟', description: 'Tecnología de amortiguación avanzada' },
+      { id: 7, name: 'Mochila Urbana', price: 449, category: 'fashion', emoji: '🎒', description: 'Resistente al agua con compartimentos' },
+      { id: 8, name: 'Gorra Snapback', price: 299, category: 'fashion', emoji: '🧢', description: 'Diseño moderno y ajustable' },
+      { id: 9, name: 'Lámpara LED Inteligente', price: 399, category: 'home', emoji: '💡', description: 'Control por app y cambio de color' },
+      { id: 10, name: 'Difusor de Aromas', price: 349, category: 'home', emoji: '🕯️', description: 'Ultrasonido con luz LED' },
+      { id: 11, name: 'Set de Tazas Modernas', price: 249, category: 'home', emoji: '☕', description: 'Cerámica de alta calidad (4 pzas)' },
+      { id: 12, name: 'Cojines Decorativos', price: 199, category: 'home', emoji: '🛋️', description: 'Suaves y elegantes (Pack de 2)' },
+      { id: 13, name: 'Pelota de Fútbol Pro', price: 499, category: 'sports', emoji: '⚽', description: 'Tamaño oficial FIFA' },
+      { id: 14, name: 'Yoga Mat Premium', price: 379, category: 'sports', emoji: '🧘', description: 'Antideslizante 6mm de grosor' },
+      { id: 15, name: 'Mancuernas Ajustables', price: 899, category: 'sports', emoji: '🏋️', description: '2.5kg a 12.5kg por mancuerna' },
+      { id: 16, name: 'Botella Térmica', price: 299, category: 'sports', emoji: '🥤', description: 'Mantiene temperatura 24hrs' },
+    ];
+
+    let cart = [];
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    // Render products
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      const noResults = document.getElementById('no-results');
+      
+      let filtered = products;
+      
+      if (currentFilter !== 'all') {
+        filtered = filtered.filter(p => p.category === currentFilter);
+      }
+      
+      if (searchQuery) {
+        filtered = filtered.filter(p => 
+          p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.description.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+      
+      if (filtered.length === 0) {
+        grid.classList.add('hidden');
+        noResults.classList.remove('hidden');
+        return;
+      }
+      
+      grid.classList.remove('hidden');
+      noResults.classList.add('hidden');
+      
+      grid.innerHTML = filtered.map(product => `
+        <div class="product-card bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 hover:border-violet-500/50 group">
+          <div class="aspect-square bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center text-7xl p-8">
+            ${product.emoji}
+          </div>
+          <div class="p-6">
+            <h3 class="font-bold text-lg text-white mb-2 group-hover:text-violet-400 transition-colors">${product.name}</h3>
+            <p class="text-slate-400 text-sm mb-4">${product.description}</p>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-bold text-white">$${product.price}</span>
+              <button class="add-to-cart px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg transition-all font-medium" data-id="${product.id}">
+                Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      
+      // Add to cart listeners
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = parseInt(e.target.dataset.id);
+          addToCart(id);
+        });
+      });
+    }
+
+    // Add to cart
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const existingItem = cart.find(item => item.id === productId);
+      
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+      
+      updateCartUI();
+      showCartNotification();
+    }
+
+    // Update cart UI
+    function updateCartUI() {
+      const cartCount = document.getElementById('cart-count');
+      const cartItems = document.getElementById('cart-items');
+      const emptyCart = document.getElementById('empty-cart');
+      const cartFooter = document.getElementById('cart-footer');
+      const cartSubtotal = document.getElementById('cart-subtotal');
+      
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      
+      if (totalItems > 0) {
+        cartCount.textContent = totalItems;
+        cartCount.classList.remove('hidden');
+      } else {
+        cartCount.classList.add('hidden');
+      }
+      
+      if (cart.length === 0) {
+        emptyCart.classList.remove('hidden');
+        cartFooter.classList.add('hidden');
+        cartItems.innerHTML = '<div id="empty-cart" class="text-center py-16"><div class="text-6xl mb-4">🛒</div><p class="text-slate-400 text-lg">Tu carrito está vacío</p></div>';
+      } else {
+        emptyCart.classList.add('hidden');
+        cartFooter.classList.remove('hidden');
+        cartSubtotal.textContent = `$${subtotal}`;
+        
+        cartItems.innerHTML = cart.map(item => `
+          <div class="flex items-center gap-4 p-4 bg-slate-800/50 rounded-xl mb-3">
+            <div class="text-4xl">${item.emoji}</div>
+            <div class="flex-1">
+              <h4 class="text-white font-semibold">${item.name}</h4>
+              <p class="text-slate-400 text-sm">$${item.price} × ${item.quantity}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="decrease-qty p-1 hover:bg-slate-700 rounded text-slate-300 hover:text-white transition-colors" data-id="${item.id}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                </svg>
+              </button>
+              <span class="text-white font-semibold w-8 text-center">${item.quantity}</span>
+              <button class="increase-qty p-1 hover:bg-slate-700 rounded text-slate-300 hover:text-white transition-colors" data-id="${item.id}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+              </button>
+            </div>
+            <button class="remove-item p-2 hover:bg-red-500/20 rounded text-red-400 hover:text-red-300 transition-colors" data-id="${item.id}">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </div>
+        `).join('');
+        
+        // Add event listeners for quantity controls
+        document.querySelectorAll('.increase-qty').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = parseInt(e.currentTarget.dataset.id);
+            addToCart(id);
+          });
+        });
+        
+        document.querySelectorAll('.decrease-qty').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = parseInt(e.currentTarget.dataset.id);
+            decreaseQuantity(id);
+          });
+        });
+        
+        document.querySelectorAll('.remove-item').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = parseInt(e.currentTarget.dataset.id);
+            removeFromCart(id);
+          });
+        });
+      }
+    }
+
+    // Decrease quantity
+    function decreaseQuantity(productId) {
+      const item = cart.find(i => i.id === productId);
+      if (item.quantity > 1) {
+        item.quantity--;
+      } else {
+        removeFromCart(productId);
+      }
+      updateCartUI();
+    }
+
+    // Remove from cart
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      updateCartUI();
+    }
+
+    // Show cart notification
+    function showCartNotification() {
+      const cartCount = document.getElementById('cart-count');
+      cartCount.style.animation = 'none';
+      setTimeout(() => {
+        cartCount.style.animation = 'pulse 0.3s ease';
+      }, 10);
+    }
+
+    // Category filters
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.category-btn').forEach(b => {
+          b.classList.remove('bg-gradient-to-r', 'from-violet-600', 'to-purple-600', 'text-white');
+          b.classList.add('bg-slate-800', 'text-slate-300');
+        });
+        btn.classList.remove('bg-slate-800', 'text-slate-300');
+        btn.classList.add('bg-gradient-to-r', 'from-violet-600', 'to-purple-600', 'text-white');
+        
+        currentFilter = btn.dataset.category;
+        renderProducts();
+      });
+    });
+
+    // Search functionality
+    const searchBtn = document.getElementById('search-btn');
+    const searchBar = document.getElementById('search-bar');
+    const searchInput = document.getElementById('search-input');
+    
+    searchBtn.addEventListener('click', () => {
+      searchBar.classList.toggle('hidden');
+      if (!searchBar.classList.contains('hidden')) {
+        searchInput.focus();
+      }
+    });
+    
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderProducts();
+    });
+
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Cart modal
+    const cartBtn = document.getElementById('cart-btn');
+    const cartModal = document.getElementById('cart-modal');
+    const closeCart = document.getElementById('close-cart');
+    const cartBackdrop = document.getElementById('cart-backdrop');
+    
+    cartBtn.addEventListener('click', () => {
+      cartModal.classList.remove('hidden');
+    });
+    
+    closeCart.addEventListener('click', () => {
+      cartModal.classList.add('hidden');
+    });
+    
+    cartBackdrop.addEventListener('click', () => {
+      cartModal.classList.add('hidden');
+    });
+
+    // Checkout modal
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const checkoutModal = document.getElementById('checkout-modal');
+    const closeCheckout = document.getElementById('close-checkout');
+    const checkoutBackdrop = document.getElementById('checkout-backdrop');
+    const checkoutForm = document.getElementById('checkout-form');
+    const orderSuccess = document.getElementById('order-success');
+    const closeSuccess = document.getElementById('close-success');
+    
+    checkoutBtn.addEventListener('click', () => {
+      cartModal.classList.add('hidden');
+      checkoutModal.classList.remove('hidden');
+      updateCheckoutSummary();
+    });
+    
+    closeCheckout.addEventListener('click', () => {
+      checkoutModal.classList.add('hidden');
+    });
+    
+    checkoutBackdrop.addEventListener('click', () => {
+      checkoutModal.classList.add('hidden');
+    });
+    
+    closeSuccess.addEventListener('click', () => {
+      checkoutModal.classList.add('hidden');
+      cart = [];
+      updateCartUI();
+      checkoutForm.classList.remove('hidden');
+      orderSuccess.classList.add('hidden');
+      checkoutForm.reset();
+    });
+
+    // Update checkout summary
+    function updateCheckoutSummary() {
+      const summary = document.getElementById('checkout-summary');
+      const total = document.getElementById('checkout-total');
+      
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      
+      summary.innerHTML = cart.map(item => `
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-slate-400">${item.name} × ${item.quantity}</span>
+          <span class="text-white font-semibold">$${item.price * item.quantity}</span>
+        </div>
+      `).join('');
+      
+      total.textContent = `$${subtotal}`;
+    }
+
+    // Checkout form submission
+    checkoutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      checkoutForm.classList.add('hidden');
+      orderSuccess.classList.remove('hidden');
+    });
+
+    // Update config-based UI
+    function onConfigChange(config) {
+      const c = { ...defaultConfig, ...config };
+      
+      document.getElementById('nav-store-name').textContent = c.store_name;
+      document.getElementById('footer-store-name').textContent = c.store_name;
+      document.getElementById('hero-title').innerHTML = c.hero_title;
+      document.getElementById('hero-subtitle').textContent = c.hero_subtitle;
+      document.getElementById('promo-banner').textContent = c.promo_banner;
+      document.getElementById('contact-email').textContent = c.contact_email;
+      document.getElementById('contact-phone').textContent = c.contact_phone;
+      document.getElementById('contact-address').textContent = c.contact_address;
+      
+      document.getElementById('app-wrapper').style.backgroundColor = c.background_color;
+    }
+
+    // Capabilities
+    function mapToCapabilities(config) {
+      const c = { ...defaultConfig, ...config };
+      
+      return {
+        recolorables: [
+          {
+            get: () => c.background_color,
+            set: (value) => {
+              c.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => c.surface_color,
+            set: (value) => {
+              c.surface_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => c.text_color,
+            set: (value) => {
+              c.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => c.primary_action_color,
+            set: (value) => {
+              c.primary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => c.secondary_action_color,
+            set: (value) => {
+              c.secondary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    // Map to edit panel values
+    function mapToEditPanelValues(config) {
+      const c = { ...defaultConfig, ...config };
+      return new Map([
+        ['store_name', c.store_name],
+        ['hero_title', c.hero_title],
+        ['hero_subtitle', c.hero_subtitle],
+        ['promo_banner', c.promo_banner],
+        ['contact_email', c.contact_email],
+        ['contact_phone', c.contact_phone],
+        ['contact_address', c.contact_address]
+      ]);
+    }
+
+    // Initialize
+    renderProducts();
+    
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    } else {
+      onConfigChange(defaultConfig);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c3bad7a708f721f',t:'MTc2OTM4NTA3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,1501 @@
+<!doctype html>
+<html lang="es" style="height: 100%;">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Studio</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%239333ea'/%3E%3Cstop offset='100%25' stop-color='%23c084fc'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='%230a0a0a'/%3E%3Cpath d='M30 70V30l40 40V30' stroke='url(%23g)' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0a0a;
+      color: #ffffff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .app-wrapper {
+      width: 100%;
+      min-height: 100%;
+      overflow-y: auto;
+      background: #0a0a0a;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.25rem 2rem;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+    }
+
+    .logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #9333ea, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #a1a1aa;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #9333ea, #c084fc);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-btn {
+      padding: 0.75rem 1.75rem;
+      background: linear-gradient(135deg, #9333ea, #7c3aed);
+      border: none;
+      border-radius: 50px;
+      color: #ffffff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(147, 51, 234, 0.4);
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(147, 51, 234, 0.6);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse at 20% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(192, 132, 252, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(147, 51, 234, 0.05) 0%, transparent 70%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(rgba(147, 51, 234, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(147, 51, 234, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .hero-content {
+      animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: #c084fc;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title-gradient {
+      background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title-purple {
+      background: linear-gradient(135deg, #9333ea, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: #a1a1aa;
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-primary {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #9333ea, #7c3aed);
+      border: none;
+      border-radius: 12px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 20px rgba(147, 51, 234, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(147, 51, 234, 0.6);
+    }
+
+    .btn-secondary {
+      padding: 1rem 2rem;
+      background: transparent;
+      border: 1px solid rgba(147, 51, 234, 0.5);
+      border-radius: 12px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(147, 51, 234, 0.1);
+      border-color: #9333ea;
+    }
+
+    .hero-visual {
+      position: relative;
+      animation: fadeInUp 1s ease 0.3s both;
+    }
+
+    .hero-image-container {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 80px rgba(147, 51, 234, 0.3);
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-image-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 30% 30%, rgba(147, 51, 234, 0.3) 0%, transparent 40%),
+        radial-gradient(circle at 70% 70%, rgba(192, 132, 252, 0.2) 0%, transparent 40%);
+    }
+
+    .hero-image-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .hero-image-icon {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 1rem;
+    }
+
+    .floating-card {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(147, 51, 234, 0.2);
+      border-radius: 16px;
+      padding: 1rem;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-card-1 {
+      top: -20px;
+      right: -30px;
+      animation-delay: 0s;
+    }
+
+    .floating-card-2 {
+      bottom: 40px;
+      left: -40px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .floating-card-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 0.5rem;
+    }
+
+    .floating-card-text {
+      font-size: 0.8rem;
+      color: #a1a1aa;
+    }
+
+    .floating-card-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* Stats Section */
+    .stats {
+      padding: 4rem 2rem;
+      background: linear-gradient(180deg, transparent 0%, rgba(147, 51, 234, 0.05) 100%);
+      border-top: 1px solid rgba(147, 51, 234, 0.1);
+      border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+    }
+
+    .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(147, 51, 234, 0.05);
+      border-radius: 20px;
+      border: 1px solid rgba(147, 51, 234, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-5px);
+      border-color: rgba(147, 51, 234, 0.3);
+      box-shadow: 0 10px 40px rgba(147, 51, 234, 0.2);
+    }
+
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #9333ea, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #a1a1aa;
+      font-size: 0.95rem;
+    }
+
+    /* About Section */
+    .about {
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .section-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 0.5rem 1.25rem;
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: #c084fc;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      color: #a1a1aa;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-image {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .about-image-bg {
+      width: 100%;
+      height: 500px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
+      position: relative;
+    }
+
+    .about-image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.2) 0%, transparent 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-image-icon {
+      width: 200px;
+      height: 200px;
+      opacity: 0.8;
+    }
+
+    .about-accent {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(135deg, #9333ea, #c084fc);
+      border-radius: 24px;
+      z-index: -1;
+    }
+
+    .about-content h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-content p {
+      color: #a1a1aa;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .about-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: rgba(147, 51, 234, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(147, 51, 234, 0.1);
+    }
+
+    .about-feature-icon {
+      width: 24px;
+      height: 24px;
+      color: #9333ea;
+    }
+
+    .about-feature span {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    /* Services Section */
+    .services {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, rgba(147, 51, 234, 0.03) 0%, transparent 100%);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(147, 51, 234, 0.15);
+      border-radius: 24px;
+      padding: 2.5rem;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #9333ea, #c084fc);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(147, 51, 234, 0.4);
+      box-shadow: 0 20px 60px rgba(147, 51, 234, 0.2);
+    }
+
+    .service-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(192, 132, 252, 0.1));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-icon svg {
+      width: 35px;
+      height: 35px;
+      color: #c084fc;
+    }
+
+    .service-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .service-card p {
+      color: #a1a1aa;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #c084fc;
+      text-decoration: none;
+      font-weight: 500;
+      transition: gap 0.3s ease;
+    }
+
+    .service-link:hover {
+      gap: 1rem;
+    }
+
+    /* Gallery Section */
+    .gallery {
+      padding: 6rem 2rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 250px);
+      gap: 1.5rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-item:nth-child(1) {
+      grid-column: span 2;
+    }
+
+    .gallery-item:nth-child(4) {
+      grid-column: span 2;
+    }
+
+    .gallery-image {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
+      position: relative;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover .gallery-image {
+      transform: scale(1.05);
+    }
+
+    .gallery-image-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery-image-pattern svg {
+      width: 80px;
+      height: 80px;
+      opacity: 0.3;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(147, 51, 234, 0.8) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-overlay h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      color: #ffffff;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .cta-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(124, 58, 237, 0.1) 100%);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 32px;
+      padding: 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-bg-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(192, 132, 252, 0.1) 0%, transparent 40%);
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .cta-subtitle {
+      color: #a1a1aa;
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 4rem 2rem 2rem;
+      background: rgba(10, 10, 10, 0.95);
+      border-top: 1px solid rgba(147, 51, 234, 0.2);
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand p {
+      color: #a1a1aa;
+      margin-top: 1rem;
+      line-height: 1.7;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: rgba(147, 51, 234, 0.1);
+      border: 1px solid rgba(147, 51, 234, 0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background: rgba(147, 51, 234, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .footer-social svg {
+      width: 18px;
+      height: 18px;
+      color: #c084fc;
+    }
+
+    .footer-col h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-col a {
+      color: #a1a1aa;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-col a:hover {
+      color: #c084fc;
+    }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(147, 51, 234, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      color: #71717a;
+      font-size: 0.9rem;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-bottom-links a {
+      color: #71717a;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-bottom-links a:hover {
+      color: #c084fc;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-content {
+        order: 1;
+      }
+
+      .hero-visual {
+        order: 2;
+      }
+
+      .hero-subtitle {
+        margin: 0 auto 2.5rem;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+      }
+
+      .gallery-item:nth-child(1),
+      .gallery-item:nth-child(4) {
+        grid-column: span 1;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .cta-title {
+        font-size: 2rem;
+      }
+
+      .stats-container {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper"><!-- Navigation -->
+   <nav class="nav">
+    <div class="nav-container"><a href="#" class="logo">
+      <svg class="logo-icon" viewbox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><defs>
+        <lineargradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+         <stop offset="0%" stop-color="#9333ea" />
+         <stop offset="100%" stop-color="#c084fc" />
+        </lineargradient>
+       </defs> <circle cx="50" cy="50" r="45" fill="#0a0a0a" stroke="url(#logoGrad)" stroke-width="2" /> <path d="M30 70V30L70 70V30" stroke="url(#logoGrad)" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      </svg><span class="logo-text">Nexus</span> </a>
+     <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+     </ul><button class="nav-btn">Comenzar</button>
+    </div>
+   </nav><!-- Hero Section -->
+   <section class="hero" id="inicio">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-container">
+     <div class="hero-content">
+      <div class="hero-badge"><span class="hero-badge-dot"></span> Disponible para proyectos
+      </div>
+      <h1 class="hero-title"><span class="hero-title-gradient" id="hero-title">Creamos Experiencias</span><br><span class="hero-title-purple">Digitales Únicas</span></h1>
+      <p class="hero-subtitle" id="hero-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+      <div class="hero-buttons"><button class="btn-primary"> Explorar Proyectos 
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></button> <button class="btn-secondary">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3" />
+        </svg> Ver Demo </button>
+      </div>
+     </div>
+     <div class="hero-visual">
+      <div class="hero-image-container">
+       <div class="hero-image">
+        <div class="hero-image-pattern"></div>
+        <div class="hero-image-content">
+         <svg class="hero-image-icon" viewbox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><defs>
+           <lineargradient id="heroIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#9333ea" />
+            <stop offset="100%" stop-color="#c084fc" />
+           </lineargradient>
+          </defs> <rect x="20" y="20" width="160" height="160" rx="20" stroke="url(#heroIconGrad)" stroke-width="4" fill="none" /> <circle cx="70" cy="70" r="20" fill="url(#heroIconGrad)" opacity="0.6" /> <rect x="100" y="60" width="60" height="20" rx="5" fill="url(#heroIconGrad)" opacity="0.4" /> <rect x="50" y="110" width="100" height="15" rx="5" fill="url(#heroIconGrad)" opacity="0.3" /> <rect x="50" y="135" width="70" height="15" rx="5" fill="url(#heroIconGrad)" opacity="0.2" />
+         </svg>
+        </div>
+       </div>
+       <div class="floating-card floating-card-1">
+        <svg class="floating-card-icon" viewbox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+        </svg>
+        <div class="floating-card-text">
+         Rating
+        </div>
+        <div class="floating-card-value">
+         4.9/5
+        </div>
+       </div>
+       <div class="floating-card floating-card-2">
+        <svg class="floating-card-icon" viewbox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M23 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        <div class="floating-card-text">
+         Clientes
+        </div>
+        <div class="floating-card-value">
+         500+
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Stats Section -->
+   <section class="stats">
+    <div class="stats-container">
+     <div class="stat-item">
+      <div class="stat-number">
+       250+
+      </div>
+      <div class="stat-label">
+       Proyectos Completados
+      </div>
+     </div>
+     <div class="stat-item">
+      <div class="stat-number">
+       50+
+      </div>
+      <div class="stat-label">
+       Clientes Satisfechos
+      </div>
+     </div>
+     <div class="stat-item">
+      <div class="stat-number">
+       15
+      </div>
+      <div class="stat-label">
+       Premios Ganados
+      </div>
+     </div>
+     <div class="stat-item">
+      <div class="stat-number">
+       8+
+      </div>
+      <div class="stat-label">
+       Años de Experiencia
+      </div>
+     </div>
+    </div>
+   </section><!-- About Section -->
+   <section class="about" id="nosotros">
+    <div class="section-container">
+     <div class="about-grid">
+      <div class="about-image">
+       <div class="about-image-bg">
+        <div class="about-image-overlay">
+         <svg class="about-image-icon" viewbox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><defs>
+           <lineargradient id="aboutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#9333ea" />
+            <stop offset="100%" stop-color="#c084fc" />
+           </lineargradient>
+          </defs> <circle cx="100" cy="100" r="80" stroke="url(#aboutGrad)" stroke-width="4" fill="none" /> <circle cx="100" cy="100" r="60" stroke="url(#aboutGrad)" stroke-width="2" fill="none" opacity="0.5" /> <circle cx="100" cy="100" r="40" fill="url(#aboutGrad)" opacity="0.3" /> <path d="M80 100L95 115L120 85" stroke="#ffffff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+         </svg>
+        </div>
+       </div>
+       <div class="about-accent"></div>
+      </div>
+      <div class="about-content">
+       <h3 id="about-title">Impulsamos tu Visión Digital</h3>
+       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+       <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
+       <div class="about-features">
+        <div class="about-feature">
+         <svg class="about-feature-icon" viewbox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /> <polyline points="22 4 12 14.01 9 11.01" />
+         </svg><span>Diseño Premium</span>
+        </div>
+        <div class="about-feature">
+         <svg class="about-feature-icon" viewbox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /> <polyline points="22 4 12 14.01 9 11.01" />
+         </svg><span>Soporte 24/7</span>
+        </div>
+        <div class="about-feature">
+         <svg class="about-feature-icon" viewbox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /> <polyline points="22 4 12 14.01 9 11.01" />
+         </svg><span>Código Limpio</span>
+        </div>
+        <div class="about-feature">
+         <svg class="about-feature-icon" viewbox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /> <polyline points="22 4 12 14.01 9 11.01" />
+         </svg><span>SEO Optimizado</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Services Section -->
+   <section class="services" id="servicios">
+    <div class="section-container">
+     <div class="section-header"><span class="section-tag">Servicios</span>
+      <h2 class="section-title" id="services-title">Lo Que Ofrecemos</h2>
+      <p class="section-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+     </div>
+     <div class="services-grid">
+      <div class="service-card">
+       <div class="service-icon">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /> <line x1="3" y1="9" x2="21" y2="9" /> <line x1="9" y1="21" x2="9" y2="9" />
+        </svg>
+       </div>
+       <h3>Diseño Web</h3>
+       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris vivamus hendrerit arcu sed erat.</p><a href="#" class="service-link"> Saber más 
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></a>
+      </div>
+      <div class="service-card">
+       <div class="service-icon">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2" /> <polyline points="2 17 12 22 22 17" /> <polyline points="2 12 12 17 22 12" />
+        </svg>
+       </div>
+       <h3>Desarrollo App</h3>
+       <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p><a href="#" class="service-link"> Saber más 
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></a>
+      </div>
+      <div class="service-card">
+       <div class="service-icon">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /> <line x1="2" y1="12" x2="22" y2="12" /> <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        </svg>
+       </div>
+       <h3>Marketing Digital</h3>
+       <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><a href="#" class="service-link"> Saber más 
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></a>
+      </div>
+      <div class="service-card">
+       <div class="service-icon">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /> <polyline points="3.27 6.96 12 12.01 20.73 6.96" /> <line x1="12" y1="22.08" x2="12" y2="12" />
+        </svg>
+       </div>
+       <h3>Branding</h3>
+       <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est.</p><a href="#" class="service-link"> Saber más 
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></a>
+      </div>
+      <div class="service-card">
+       <div class="service-icon">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /> <polyline points="14 2 14 8 20 8" /> <line x1="16" y1="13" x2="8" y2="13" /> <line x1="16" y1="17" x2="8" y2="17" /> <polyline points="10 9 9 9 8 9" />
+        </svg>
+       </div>
+       <h3>Consultoría</h3>
+       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.</p><a href="#" class="service-link"> Saber más 
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></a>
+      </div>
+      <div class="service-card">
+       <div class="service-icon">
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+       </div>
+       <h3>Ciberseguridad</h3>
+       <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p><a href="#" class="service-link"> Saber más 
+        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></a>
+      </div>
+     </div>
+    </div>
+   </section><!-- Gallery Section -->
+   <section class="gallery" id="galeria">
+    <div class="section-container">
+     <div class="section-header"><span class="section-tag">Portafolio</span>
+      <h2 class="section-title">Nuestros Proyectos</h2>
+      <p class="section-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+     </div>
+     <div class="gallery-grid">
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #1a1a2e, #2d1b4e);">
+        <div class="gallery-image-pattern">
+         <svg viewbox="0 0 100 100" fill="none" stroke="#9333ea" stroke-width="2"><rect x="10" y="10" width="80" height="80" rx="10" /> <circle cx="35" cy="35" r="10" /> <path d="M10 70l25-25 15 15 30-30" />
+         </svg>
+        </div>
+       </div>
+       <div class="gallery-overlay">
+        <h4>Proyecto Alpha</h4>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #0f0f23, #1a0a2e);">
+        <div class="gallery-image-pattern">
+         <svg viewbox="0 0 100 100" fill="none" stroke="#c084fc" stroke-width="2"><circle cx="50" cy="50" r="35" /> <circle cx="50" cy="50" r="20" /> <circle cx="50" cy="50" r="5" fill="#c084fc" />
+         </svg>
+        </div>
+       </div>
+       <div class="gallery-overlay">
+        <h4>Proyecto Beta</h4>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #16213e, #1a1a2e);">
+        <div class="gallery-image-pattern">
+         <svg viewbox="0 0 100 100" fill="none" stroke="#a855f7" stroke-width="2"><polygon points="50,15 85,85 15,85" /> <polygon points="50,35 70,75 30,75" />
+         </svg>
+        </div>
+       </div>
+       <div class="gallery-overlay">
+        <h4>Proyecto Gamma</h4>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #1e1e3f, #0f0f23);">
+        <div class="gallery-image-pattern">
+         <svg viewbox="0 0 100 100" fill="none" stroke="#9333ea" stroke-width="2"><rect x="20" y="20" width="25" height="25" rx="5" /> <rect x="55" y="20" width="25" height="25" rx="5" /> <rect x="20" y="55" width="25" height="25" rx="5" /> <rect x="55" y="55" width="25" height="25" rx="5" />
+         </svg>
+        </div>
+       </div>
+       <div class="gallery-overlay">
+        <h4>Proyecto Delta</h4>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #2d1b4e, #1a1a2e);">
+        <div class="gallery-image-pattern">
+         <svg viewbox="0 0 100 100" fill="none" stroke="#c084fc" stroke-width="2"><path d="M20 50 Q50 20 80 50 Q50 80 20 50" /> <circle cx="50" cy="50" r="10" fill="#c084fc" opacity="0.5" />
+         </svg>
+        </div>
+       </div>
+       <div class="gallery-overlay">
+        <h4>Proyecto Epsilon</h4>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- CTA Section -->
+   <section class="cta" id="contacto">
+    <div class="cta-container">
+     <div class="cta-bg-pattern"></div>
+     <div class="cta-content">
+      <h2 class="cta-title" id="cta-title">¿Listo para Empezar tu Proyecto?</h2>
+      <p class="cta-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+      <div class="cta-buttons"><button class="btn-primary" id="cta-button"> Contactar Ahora 
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" />
+        </svg></button> <button class="btn-secondary">Ver Precios</button>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="footer">
+    <div class="footer-container">
+     <div class="footer-grid">
+      <div class="footer-brand"><a href="#" class="logo">
+        <svg class="logo-icon" viewbox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><defs>
+          <lineargradient id="footerLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+           <stop offset="0%" stop-color="#9333ea" />
+           <stop offset="100%" stop-color="#c084fc" />
+          </lineargradient>
+         </defs> <circle cx="50" cy="50" r="45" fill="#0a0a0a" stroke="url(#footerLogoGrad)" stroke-width="2" /> <path d="M30 70V30L70 70V30" stroke="url(#footerLogoGrad)" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg><span class="logo-text">Nexus</span> </a>
+       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+       <div class="footer-social"><a href="#" target="_blank" rel="noopener noreferrer">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+         </svg></a> <a href="#" target="_blank" rel="noopener noreferrer">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /> <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /> <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+         </svg></a> <a href="#" target="_blank" rel="noopener noreferrer">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /> <rect x="2" y="9" width="4" height="12" /> <circle cx="4" cy="4" r="2" />
+         </svg></a> <a href="#" target="_blank" rel="noopener noreferrer">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+         </svg></a>
+       </div>
+      </div>
+      <div class="footer-col">
+       <h4>Empresa</h4>
+       <ul>
+        <li><a href="#">Sobre Nosotros</a></li>
+        <li><a href="#">Equipo</a></li>
+        <li><a href="#">Carreras</a></li>
+        <li><a href="#">Blog</a></li>
+       </ul>
+      </div>
+      <div class="footer-col">
+       <h4>Servicios</h4>
+       <ul>
+        <li><a href="#">Diseño Web</a></li>
+        <li><a href="#">Desarrollo</a></li>
+        <li><a href="#">Marketing</a></li>
+        <li><a href="#">Consultoría</a></li>
+       </ul>
+      </div>
+      <div class="footer-col">
+       <h4>Soporte</h4>
+       <ul>
+        <li><a href="#">Centro de Ayuda</a></li>
+        <li><a href="#">Documentación</a></li>
+        <li><a href="#">Comunidad</a></li>
+        <li><a href="#">Contacto</a></li>
+       </ul>
+      </div>
+     </div>
+     <div class="footer-bottom">
+      <p>© 2024 Nexus Studio. Todos los derechos reservados.</p>
+      <div class="footer-bottom-links"><a href="#">Privacidad</a> <a href="#">Términos</a> <a href="#">Cookies</a>
+      </div>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      hero_title: 'Creamos Experiencias',
+      hero_subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+      about_title: 'Impulsamos tu Visión Digital',
+      services_title: 'Lo Que Ofrecemos',
+      cta_title: '¿Listo para Empezar tu Proyecto?',
+      cta_button: 'Contactar Ahora',
+      background_color: '#0a0a0a',
+      surface_color: '#1a1a2e',
+      text_color: '#ffffff',
+      primary_action_color: '#9333ea',
+      secondary_action_color: '#c084fc',
+      font_family: 'Space Grotesk',
+      font_size: 16
+    };
+
+    let config = { ...defaultConfig };
+
+    async function onConfigChange(newConfig) {
+      config = { ...config, ...newConfig };
+      
+      // Update text content
+      const heroTitle = document.getElementById('hero-title');
+      if (heroTitle) heroTitle.textContent = config.hero_title || defaultConfig.hero_title;
+      
+      const heroSubtitle = document.getElementById('hero-subtitle');
+      if (heroSubtitle) heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      
+      const aboutTitle = document.getElementById('about-title');
+      if (aboutTitle) aboutTitle.textContent = config.about_title || defaultConfig.about_title;
+      
+      const servicesTitle = document.getElementById('services-title');
+      if (servicesTitle) servicesTitle.textContent = config.services_title || defaultConfig.services_title;
+      
+      const ctaTitle = document.getElementById('cta-title');
+      if (ctaTitle) ctaTitle.textContent = config.cta_title || defaultConfig.cta_title;
+      
+      const ctaButton = document.getElementById('cta-button');
+      if (ctaButton) {
+        ctaButton.innerHTML = `${config.cta_button || defaultConfig.cta_button} <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+      }
+
+      // Update colors
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+
+      document.body.style.backgroundColor = bgColor;
+      document.querySelector('.app-wrapper').style.background = bgColor;
+
+      // Update fonts
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = 'Inter, sans-serif';
+
+      document.querySelectorAll('.hero-title, .section-title, .cta-title, h3, h4, .logo-text, .stat-number').forEach(el => {
+        el.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+      });
+
+      document.querySelectorAll('.hero-subtitle, .section-subtitle, p, .nav-links a, .btn-primary, .btn-secondary').forEach(el => {
+        el.style.fontSize = `${fontSize}px`;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['hero_title', config.hero_title || defaultConfig.hero_title],
+        ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+        ['about_title', config.about_title || defaultConfig.about_title],
+        ['services_title', config.services_title || defaultConfig.services_title],
+        ['cta_title', config.cta_title || defaultConfig.cta_title],
+        ['cta_button', config.cta_button || defaultConfig.cta_button]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c3b3708c13a5c83',t:'MTc2OTM4MDIyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

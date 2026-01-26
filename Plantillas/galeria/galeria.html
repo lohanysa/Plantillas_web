@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="es" style="height: 100%;">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Gallery Portfolio</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffc4d6'/%3E%3Cstop offset='100%25' stop-color='%23e9b8f5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23g)'/%3E%3Crect x='20' y='30' width='60' height='40' rx='5' fill='white' opacity='0.9'/%3E%3Ccircle cx='35' cy='45' r='5' fill='url(%23g)'/%3E%3Cpath d='M28 60l10-8 8 6 12-10v12H28z' fill='url(%23g)'/%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Poppins:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fef7f3;
+      color: #4a4a4a;
+      line-height: 1.7;
+    }
+
+    .app-wrapper {
+      width: 100%;
+      min-height: 100%;
+      overflow-y: auto;
+      background: #fef7f3;
+    }
+
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 3rem;
+      background: rgba(254, 247, 243, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 196, 214, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .navbar-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #ffc4d6, #e9b8f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #6b6b6b;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 400;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ffc4d6, #e9b8f5);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ff9eb7;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-btn {
+      padding: 0.75rem 1.75rem;
+      background: linear-gradient(135deg, #ffc4d6, #ffb3c9);
+      border: none;
+      border-radius: 50px;
+      color: #ffffff;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 196, 214, 0.3);
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 196, 214, 0.5);
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-top: 90px;
+      padding: 4rem 3rem;
+      min-height: 85%;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background: linear-gradient(135deg, #fef7f3 0%, #fff5f8 100%);
+    }
+
+    .hero-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero-content {
+      animation: fadeInLeft 1s ease;
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .hero-tag {
+      display: inline-block;
+      padding: 0.5rem 1.25rem;
+      background: linear-gradient(135deg, #ffe8f0, #f5e8ff);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: #d47fa6;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      color: #3a3a3a;
+    }
+
+    .hero-title-gradient {
+      background: linear-gradient(135deg, #ff9eb7, #e9b8f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-description {
+      font-size: 1.15rem;
+      color: #7a7a7a;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+      max-width: 500px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-primary {
+      padding: 1rem 2.25rem;
+      background: linear-gradient(135deg, #ffc4d6, #ffb3c9);
+      border: none;
+      border-radius: 50px;
+      color: #ffffff;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(255, 196, 214, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(255, 196, 214, 0.6);
+    }
+
+    .btn-secondary {
+      padding: 1rem 2.25rem;
+      background: transparent;
+      border: 2px solid #ffc4d6;
+      border-radius: 50px;
+      color: #ff9eb7;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 196, 214, 0.1);
+    }
+
+    .hero-image {
+      position: relative;
+      animation: fadeInRight 1s ease 0.3s both;
+    }
+
+    .hero-image-main {
+      width: 100%;
+      height: 550px;
+      background: linear-gradient(135deg, #ffe8f0 0%, #f5e8ff 50%, #e8f5f0 100%);
+      border-radius: 30px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(255, 196, 214, 0.3);
+    }
+
+    .hero-image-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-image-pattern svg {
+      width: 180px;
+      height: 180px;
+      opacity: 0.3;
+    }
+
+    .floating-badge {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.25rem 1.75rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(255, 196, 214, 0.3);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .floating-badge-1 {
+      top: 30px;
+      right: -30px;
+    }
+
+    .floating-badge-2 {
+      bottom: 50px;
+      left: -40px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .floating-badge-icon {
+      width: 35px;
+      height: 35px;
+      margin-bottom: 0.5rem;
+      color: #ff9eb7;
+    }
+
+    .floating-badge-text {
+      font-size: 0.8rem;
+      color: #9a9a9a;
+      margin-bottom: 0.25rem;
+    }
+
+    .floating-badge-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #3a3a3a;
+    }
+
+    /* Gallery Section */
+    .gallery-section {
+      padding: 5rem 3rem;
+      background: #ffffff;
+    }
+
+    .section-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 0.5rem 1.25rem;
+      background: linear-gradient(135deg, #ffe8f0, #f5e8ff);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: #d47fa6;
+      margin-bottom: 1rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: #3a3a3a;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      color: #7a7a7a;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:nth-child(1) {
+      grid-row: span 2;
+    }
+
+    .gallery-item:nth-child(5) {
+      grid-column: span 2;
+    }
+
+    .gallery-item:nth-child(8) {
+      grid-row: span 2;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .gallery-image {
+      width: 100%;
+      height: 100%;
+      min-height: 280px;
+      background: linear-gradient(135deg, #ffe8f0, #f5e8ff);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 196, 214, 0.2), transparent 70%);
+    }
+
+    .gallery-image-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px;
+      height: 70px;
+      color: rgba(255, 158, 183, 0.3);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(255, 196, 214, 0.95) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-overlay h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .gallery-overlay p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .gallery-item:hover .gallery-image {
+      transform: scale(1.05);
+      transition: transform 0.5s ease;
+    }
+
+    /* Collections Section */
+    .collections-section {
+      padding: 5rem 3rem;
+      background: linear-gradient(135deg, #fef7f3 0%, #fff5f8 100%);
+    }
+
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .collection-card {
+      background: #ffffff;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(255, 196, 214, 0.15);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .collection-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(255, 196, 214, 0.25);
+    }
+
+    .collection-image {
+      width: 100%;
+      height: 320px;
+      background: linear-gradient(135deg, #e8f5f0, #f5e8ff);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .collection-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(180, 234, 220, 0.3), transparent 70%);
+    }
+
+    .collection-image svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      color: rgba(180, 234, 220, 0.5);
+    }
+
+    .collection-card:hover .collection-image {
+      transform: scale(1.05);
+      transition: transform 0.5s ease;
+    }
+
+    .collection-content {
+      padding: 2rem;
+    }
+
+    .collection-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #3a3a3a;
+      margin-bottom: 1rem;
+    }
+
+    .collection-description {
+      color: #7a7a7a;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .collection-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      background: linear-gradient(135deg, #ffe8f0, #f5e8ff);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: #d47fa6;
+      font-weight: 500;
+    }
+
+    /* About Section */
+    .about-section {
+      padding: 5rem 3rem;
+      background: #ffffff;
+    }
+
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-image {
+      position: relative;
+    }
+
+    .about-image-main {
+      width: 100%;
+      height: 500px;
+      background: linear-gradient(135deg, #ffe8f0, #f5e8ff);
+      border-radius: 30px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(255, 196, 214, 0.25);
+    }
+
+    .about-image-main::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 196, 214, 0.2), transparent 70%);
+    }
+
+    .about-image-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      height: 150px;
+      color: rgba(255, 158, 183, 0.4);
+    }
+
+    .about-accent {
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(135deg, #b4eadc, #c4dcf5);
+      border-radius: 30px;
+      z-index: -1;
+    }
+
+    .about-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.75rem;
+      font-weight: 700;
+      color: #3a3a3a;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-content p {
+      color: #7a7a7a;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #ffe8f0, #f5e8ff);
+      border-radius: 20px;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff9eb7, #e9b8f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #7a7a7a;
+    }
+
+    /* Contact Section */
+    .contact-section {
+      padding: 5rem 3rem;
+      background: linear-gradient(135deg, #fef7f3 0%, #fff5f8 100%);
+    }
+
+    .contact-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 3rem;
+      border-radius: 30px;
+      box-shadow: 0 20px 60px rgba(255, 196, 214, 0.2);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #4a4a4a;
+      font-size: 0.95rem;
+    }
+
+    .form-input {
+      padding: 1rem 1.5rem;
+      background: #fef7f3;
+      border: 2px solid #ffe8f0;
+      border-radius: 15px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #ffc4d6;
+      background: #ffffff;
+    }
+
+    .form-textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .form-button {
+      padding: 1.25rem 2.5rem;
+      background: linear-gradient(135deg, #ffc4d6, #ffb3c9);
+      border: none;
+      border-radius: 50px;
+      color: #ffffff;
+      font-weight: 500;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(255, 196, 214, 0.4);
+      margin-top: 1rem;
+    }
+
+    .form-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(255, 196, 214, 0.6);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 3rem 3rem 2rem;
+      background: #ffffff;
+      border-top: 1px solid rgba(255, 196, 214, 0.2);
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .social-icon {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #ffe8f0, #f5e8ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .social-icon:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(255, 196, 214, 0.4);
+    }
+
+    .social-icon svg {
+      width: 20px;
+      height: 20px;
+      color: #ff9eb7;
+    }
+
+    .footer-text {
+      color: #9a9a9a;
+      font-size: 0.95rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-description {
+        margin: 0 auto 2.5rem;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .collections-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper"><!-- Navigation -->
+   <nav class="navbar">
+    <div class="navbar-container"><a href="#" class="logo">
+      <svg class="logo-icon" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs>
+        <lineargradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+         <stop offset="0%" stop-color="#ffc4d6" />
+         <stop offset="100%" stop-color="#e9b8f5" />
+        </lineargradient>
+       </defs> <rect x="3" y="6" width="18" height="12" rx="2" stroke="url(#logoGrad)" stroke-width="2" fill="none" /> <circle cx="8" cy="11" r="1.5" fill="url(#logoGrad)" /> <path d="M5 15l4-3 3 2 5-4v5H5z" fill="url(#logoGrad)" />
+      </svg><span class="logo-text">Lumina</span> </a>
+     <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#colecciones">Colecciones</a></li>
+      <li><a href="#sobre-mi">Sobre Mí</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+     </ul><button class="nav-btn">Sígueme</button>
+    </div>
+   </nav><!-- Hero Section -->
+   <section class="hero" id="inicio">
+    <div class="hero-container">
+     <div class="hero-content"><span class="hero-tag">Fotógrafo Profesional</span>
+      <h1 class="hero-title"><span id="hero-title">Capturando Momentos</span><br><span class="hero-title-gradient">Inolvidables</span></h1>
+      <p class="hero-description" id="hero-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.</p>
+      <div class="hero-buttons"><button class="btn-primary">Ver Portafolio</button> <button class="btn-secondary">Contáctame</button>
+      </div>
+     </div>
+     <div class="hero-image">
+      <div class="hero-image-main">
+       <div class="hero-image-pattern">
+        <svg viewbox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><defs>
+          <lineargradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+           <stop offset="0%" stop-color="#ffc4d6" />
+           <stop offset="100%" stop-color="#e9b8f5" />
+          </lineargradient>
+         </defs> <rect x="40" y="50" width="120" height="100" rx="10" stroke="url(#heroGrad)" stroke-width="4" fill="none" /> <circle cx="70" cy="80" r="12" fill="url(#heroGrad)" opacity="0.6" /> <path d="M45 130l30-25 25 18 35-28v40H45z" fill="url(#heroGrad)" opacity="0.5" />
+        </svg>
+       </div>
+      </div>
+      <div class="floating-badge floating-badge-1">
+       <svg class="floating-badge-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+       </svg>
+       <div class="floating-badge-text">
+        Rating
+       </div>
+       <div class="floating-badge-value">
+        5.0
+       </div>
+      </div>
+      <div class="floating-badge floating-badge-2">
+       <svg class="floating-badge-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /> <circle cx="12" cy="13" r="4" />
+       </svg>
+       <div class="floating-badge-text">
+        Proyectos
+       </div>
+       <div class="floating-badge-value">
+        350+
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Gallery Section -->
+   <section class="gallery-section" id="galeria">
+    <div class="section-container">
+     <div class="section-header"><span class="section-tag">Portafolio</span>
+      <h2 class="section-title" id="gallery-title">Galería de Fotos</h2>
+      <p class="section-subtitle" id="hero-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+     </div>
+     <div class="gallery-grid">
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #ffeef4, #ffe8f0);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Naturaleza Pura</h3>
+        <p>Lorem ipsum dolor sit amet consectetur</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #f5e8ff, #e8f5ff);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Paisajes Urbanos</h3>
+        <p>Sed do eiusmod tempor incididunt</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #e8f5f0, #e8fff5);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Atardeceres Mágicos</h3>
+        <p>Ut labore et dolore magna</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #fff5e8, #ffe8f0);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Arquitectura Moderna</h3>
+        <p>Excepteur sint occaecat cupidatat</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #e8f0ff, #f5e8ff);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Vida Silvestre</h3>
+        <p>Duis aute irure dolor in reprehenderit</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #ffebe8, #ffe8f5);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Retratos Creativos</h3>
+        <p>In voluptate velit esse cillum</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #e8fff0, #f0ffe8);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Bodas y Eventos</h3>
+        <p>Culpa qui officia deserunt mollit</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #fff0e8, #ffe8eb);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Producto Comercial</h3>
+        <p>Anim id est laborum sed ut</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #e8f5ff, #eff0ff);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Deportes Extremos</h3>
+        <p>Perspiciatis unde omnis iste natus</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #ffe8f8, #f8e8ff);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Arte Callejero</h3>
+        <p>Error sit voluptatem accusantium</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #f0ffe8, #e8ffee);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Gastronomía</h3>
+        <p>Doloremque laudantium totam</p>
+       </div>
+      </div>
+      <div class="gallery-item">
+       <div class="gallery-image" style="background: linear-gradient(135deg, #ffe8ed, #ffeef4);">
+        <svg class="gallery-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </svg>
+       </div>
+       <div class="gallery-overlay">
+        <h3>Moda y Estilo</h3>
+        <p>Rem aperiam eaque ipsa quae</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Collections Section -->
+   <section class="collections-section" id="colecciones">
+    <div class="section-container">
+     <div class="section-header"><span class="section-tag">Colecciones</span>
+      <h2 class="section-title" id="collections-title">Mis Colecciones Destacadas</h2>
+      <p class="section-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+     </div>
+     <div class="collections-grid">
+      <div class="collection-card">
+       <div class="collection-image" style="background: linear-gradient(135deg, #e8f5f0, #d4ebe8);">
+        <svg viewbox="0 0 24 24" fill="currentColor"><path d="M4 4h7V2H4c-1.1 0-2 .9-2 2v7h2V4zm6 9l-4 5h12l-3-4-2.03 2.71L10 13zm7-4.5c0-.83-.67-1.5-1.5-1.5S14 7.67 14 8.5s.67 1.5 1.5 1.5S17 9.33 17 8.5zM20 2h-7v2h7v7h2V4c0-1.1-.9-2-2-2zm0 18h-7v2h7c1.1 0 2-.9 2-2v-7h-2v7zM4 13H2v7c0 1.1.9 2 2 2h7v-2H4v-7z" />
+        </svg>
+       </div>
+       <div class="collection-content">
+        <h3 class="collection-title">Naturaleza Salvaje</h3>
+        <p class="collection-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><span class="collection-count">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+         </svg> 48 Fotos </span>
+       </div>
+      </div>
+      <div class="collection-card">
+       <div class="collection-image" style="background: linear-gradient(135deg, #f5e8ff, #e8dcf5);">
+        <svg viewbox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16h2v2h-2zm0-6h2v4h-2z" />
+        </svg>
+       </div>
+       <div class="collection-content">
+        <h3 class="collection-title">Arquitectura Urbana</h3>
+        <p class="collection-description">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><span class="collection-count">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+         </svg> 62 Fotos </span>
+       </div>
+      </div>
+      <div class="collection-card">
+       <div class="collection-image" style="background: linear-gradient(135deg, #ffe8f0, #ffd9e8);">
+        <svg viewbox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+       </div>
+       <div class="collection-content">
+        <h3 class="collection-title">Momentos Especiales</h3>
+        <p class="collection-description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><span class="collection-count">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+         </svg> 35 Fotos </span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- About Section -->
+   <section class="about-section" id="sobre-mi">
+    <div class="about-container">
+     <div class="about-image">
+      <div class="about-image-main">
+       <svg class="about-image-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+       </svg>
+      </div>
+      <div class="about-accent"></div>
+     </div>
+     <div class="about-content">
+      <h2 id="about-title">Sobre Mí</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <div class="about-stats">
+       <div class="stat-item">
+        <div class="stat-number">
+         8+
+        </div>
+        <div class="stat-label">
+         Años Experiencia
+        </div>
+       </div>
+       <div class="stat-item">
+        <div class="stat-number">
+         350+
+        </div>
+        <div class="stat-label">
+         Proyectos
+        </div>
+       </div>
+       <div class="stat-item">
+        <div class="stat-number">
+         25
+        </div>
+        <div class="stat-label">
+         Premios
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section class="contact-section" id="contacto">
+    <div class="contact-container">
+     <div class="section-header"><span class="section-tag">Contacto</span>
+      <h2 class="section-title" id="contact-title">Trabajemos Juntos</h2>
+      <p class="section-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+     </div>
+     <form class="contact-form" onsubmit="event.preventDefault(); alert('¡Mensaje enviado! Gracias por contactarme.');">
+      <div class="form-group"><label for="name" class="form-label">Nombre</label> <input type="text" id="name" class="form-input" placeholder="Tu nombre completo" required>
+      </div>
+      <div class="form-group"><label for="email" class="form-label">Correo Electrónico</label> <input type="email" id="email" class="form-input" placeholder="tu@email.com" required>
+      </div>
+      <div class="form-group"><label for="message" class="form-label">Mensaje</label> <textarea id="message" class="form-input form-textarea" placeholder="Cuéntame sobre tu proyecto..." required></textarea>
+      </div><button type="submit" class="form-button" id="contact-button">Enviar Mensaje</button>
+     </form>
+    </div>
+   </section><!-- Footer -->
+   <footer class="footer">
+    <div class="footer-container">
+     <div class="footer-social">
+      <div class="social-icon">
+       <svg viewbox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+       </svg>
+      </div>
+      <div class="social-icon">
+       <svg viewbox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+       </svg>
+      </div>
+      <div class="social-icon">
+       <svg viewbox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+       </svg>
+      </div>
+      <div class="social-icon">
+       <svg viewbox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+       </svg>
+      </div>
+     </div>
+     <p class="footer-text">© 2024 Lumina Photography. Todos los derechos reservados. Lorem ipsum dolor sit amet.</p>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      hero_title: 'Capturando Momentos',
+      hero_subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.',
+      hero_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.',
+      gallery_title: 'Galería de Fotos',
+      collections_title: 'Mis Colecciones Destacadas',
+      about_title: 'Sobre Mí',
+      contact_title: 'Trabajemos Juntos',
+      contact_button: 'Enviar Mensaje',
+      background_color: '#fef7f3',
+      surface_color: '#ffffff',
+      text_color: '#3a3a3a',
+      primary_action_color: '#ffc4d6',
+      secondary_action_color: '#e9b8f5',
+      font_family: 'Playfair Display',
+      font_size: 16
+    };
+
+    let config = { ...defaultConfig };
+
+    async function onConfigChange(newConfig) {
+      config = { ...config, ...newConfig };
+      
+      // Update text content
+      const heroTitle = document.getElementById('hero-title');
+      if (heroTitle) heroTitle.textContent = config.hero_title || defaultConfig.hero_title;
+      
+      const heroSubtitle = document.getElementById('hero-subtitle');
+      if (heroSubtitle) heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      
+      const heroDescription = document.getElementById('hero-description');
+      if (heroDescription) heroDescription.textContent = config.hero_description || defaultConfig.hero_description;
+      
+      const galleryTitle = document.getElementById('gallery-title');
+      if (galleryTitle) galleryTitle.textContent = config.gallery_title || defaultConfig.gallery_title;
+      
+      const collectionsTitle = document.getElementById('collections-title');
+      if (collectionsTitle) collectionsTitle.textContent = config.collections_title || defaultConfig.collections_title;
+      
+      const aboutTitle = document.getElementById('about-title');
+      if (aboutTitle) aboutTitle.textContent = config.about_title || defaultConfig.about_title;
+      
+      const contactTitle = document.getElementById('contact-title');
+      if (contactTitle) contactTitle.textContent = config.contact_title || defaultConfig.contact_title;
+      
+      const contactButton = document.getElementById('contact-button');
+      if (contactButton) contactButton.textContent = config.contact_button || defaultConfig.contact_button;
+
+      // Update colors
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+
+      document.body.style.backgroundColor = bgColor;
+      document.querySelector('.app-wrapper').style.background = bgColor;
+
+      // Update fonts
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+      document.querySelectorAll('.hero-title, .section-title, .collection-title, .logo-text, h2, h3').forEach(el => {
+        el.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+      });
+
+      document.querySelectorAll('body, p, .nav-links a, .btn-primary, .btn-secondary, .form-input').forEach(el => {
+        el.style.fontSize = `${fontSize}px`;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['hero_title', config.hero_title || defaultConfig.hero_title],
+        ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+        ['hero_description', config.hero_description || defaultConfig.hero_description],
+        ['gallery_title', config.gallery_title || defaultConfig.gallery_title],
+        ['collections_title', config.collections_title || defaultConfig.collections_title],
+        ['about_title', config.about_title || defaultConfig.about_title],
+        ['contact_title', config.contact_title || defaultConfig.contact_title],
+        ['contact_button', config.contact_button || defaultConfig.contact_button]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c3b654676a77b6f',t:'MTc2OTM4MjExOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

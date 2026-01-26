@@ -1,0 +1,1285 @@
+<!doctype html>
+<html lang="es" style="height: 100%;">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Dashboard</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232563eb'/%3E%3Cstop offset='100%25' stop-color='%233b82f6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23g)'/%3E%3Cpath d='M30 30h40v15H30zM30 50h40v5H30zM30 60h25v5H30z' fill='white' opacity='0.9'/%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Poppins:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    .main-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, #1e40af 0%, #2563eb 100%);
+      color: #ffffff;
+      padding: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 4px 0 20px rgba(37, 99, 235, 0.15);
+      position: relative;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 0 1.5rem 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .logo-icon {
+      width: 45px;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .logo-icon svg {
+      width: 26px;
+      height: 26px;
+      color: #ffffff;
+    }
+
+    .logo-text {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .user-details h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .user-details p {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 1.5rem 0;
+      overflow-y: auto;
+    }
+
+    .nav-section {
+      margin-bottom: 2rem;
+    }
+
+    .nav-section-title {
+      padding: 0 1.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 0.75rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.85rem 1.5rem;
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #ffffff;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .nav-item.active::before {
+      opacity: 1;
+    }
+
+    .nav-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      background: rgba(239, 68, 68, 0.9);
+      color: #ffffff;
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .sidebar-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-footer-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      color: #ffffff;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .sidebar-footer-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Main Content */
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+
+    .topbar {
+      background: #ffffff;
+      padding: 1.25rem 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .menu-toggle {
+      width: 40px;
+      height: 40px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .menu-toggle:hover {
+      background: #e2e8f0;
+    }
+
+    .search-bar {
+      position: relative;
+    }
+
+    .search-input {
+      width: 350px;
+      padding: 0.75rem 1rem 0.75rem 3rem;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: #64748b;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .topbar-btn {
+      width: 42px;
+      height: 42px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .topbar-btn:hover {
+      background: #e2e8f0;
+      transform: translateY(-2px);
+    }
+
+    .topbar-btn svg {
+      width: 20px;
+      height: 20px;
+      color: #475569;
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #f1f5f9;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    /* Dashboard Header */
+    .dashboard-header {
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-subtitle {
+      color: #64748b;
+      font-size: 1rem;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+      transform: translateY(-5px);
+      border-color: #2563eb;
+    }
+
+    .stat-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-icon-wrapper {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-icon-wrapper svg {
+      width: 24px;
+      height: 24px;
+      color: #2563eb;
+    }
+
+    .stat-value {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .stat-change {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .stat-change.positive {
+      color: #059669;
+      background: #d1fae5;
+    }
+
+    .stat-change.negative {
+      color: #dc2626;
+      background: #fee2e2;
+    }
+
+    .stat-change svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .stat-period {
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    /* Content Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .card-action {
+      padding: 0.5rem 1rem;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      color: #475569;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card-action:hover {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+    }
+
+    /* Chart Placeholder */
+    .chart-container {
+      width: 100%;
+      height: 300px;
+      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart-placeholder {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      padding: 2rem;
+    }
+
+    .chart-bar {
+      width: 40px;
+      background: linear-gradient(180deg, #3b82f6, #2563eb);
+      border-radius: 6px 6px 0 0;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .chart-bar:hover {
+      opacity: 0.8;
+      transform: scaleY(1.05);
+    }
+
+    .chart-bar:nth-child(1) { height: 60%; }
+    .chart-bar:nth-child(2) { height: 80%; }
+    .chart-bar:nth-child(3) { height: 45%; }
+    .chart-bar:nth-child(4) { height: 90%; }
+    .chart-bar:nth-child(5) { height: 70%; }
+    .chart-bar:nth-child(6) { height: 55%; }
+    .chart-bar:nth-child(7) { height: 85%; }
+
+    /* Activity Feed */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .activity-item:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .activity-icon svg {
+      width: 20px;
+      height: 20px;
+      color: #2563eb;
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.25rem;
+      font-size: 0.95rem;
+    }
+
+    .activity-description {
+      font-size: 0.85rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    .activity-time {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 0.5rem;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
+      border-color: #2563eb;
+    }
+
+    .project-image {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.2));
+    }
+
+    .project-image svg {
+      width: 80px;
+      height: 80px;
+      color: #2563eb;
+      opacity: 0.4;
+      position: relative;
+      z-index: 1;
+    }
+
+    .project-content {
+      padding: 1.5rem;
+    }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .project-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .project-status {
+      padding: 0.35rem 0.75rem;
+      background: #dbeafe;
+      color: #1e40af;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .project-description {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .project-team {
+      display: flex;
+      align-items: center;
+    }
+
+    .team-avatar {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-left: -8px;
+    }
+
+    .team-avatar:first-child {
+      margin-left: 0;
+    }
+
+    .project-progress {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        transition: left 0.3s ease;
+        z-index: 1000;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .search-input {
+        width: 200px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-actions {
+        gap: 0.5rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="main-wrapper"><!-- Sidebar -->
+   <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+     <div class="logo-container">
+      <div class="logo-icon">
+       <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1" /> <rect x="14" y="3" width="7" height="7" rx="1" /> <rect x="14" y="14" width="7" height="7" rx="1" /> <rect x="3" y="14" width="7" height="7" rx="1" />
+       </svg>
+      </div><span class="logo-text">ProDash</span>
+     </div>
+     <div class="user-info">
+      <div class="user-avatar">
+       JD
+      </div>
+      <div class="user-details">
+       <h4>John Doe</h4>
+       <p>Administrator</p>
+      </div>
+     </div>
+    </div>
+    <nav class="sidebar-nav">
+     <div class="nav-section">
+      <div class="nav-section-title">
+       Principal
+      </div><a href="#" class="nav-item active">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" /> <rect x="14" y="3" width="7" height="5" /> <rect x="14" y="12" width="7" height="9" /> <rect x="3" y="16" width="7" height="5" />
+       </svg> Dashboard </a> <a href="#" class="nav-item">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /> <circle cx="12" cy="7" r="4" />
+       </svg> Usuarios </a> <a href="#" class="nav-item">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+       </svg> Proyectos <span class="nav-badge">12</span> </a> <a href="#" class="nav-item">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+       </svg> Análisis </a>
+     </div>
+     <div class="nav-section">
+      <div class="nav-section-title">
+       Gestión
+      </div><a href="#" class="nav-item">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /> <polyline points="14 2 14 8 20 8" /> <line x1="16" y1="13" x2="8" y2="13" /> <line x1="16" y1="17" x2="8" y2="17" /> <polyline points="10 9 9 9 8 9" />
+       </svg> Documentos </a> <a href="#" class="nav-item">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /> <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+       </svg> Recursos </a> <a href="#" class="nav-item">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /> <polyline points="12 6 12 12 16 14" />
+       </svg> Calendario </a>
+     </div>
+     <div class="nav-section">
+      <div class="nav-section-title">
+       Soporte
+      </div><a href="#" class="nav-item">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+       </svg> Mensajes <span class="nav-badge">3</span> </a> <a href="#" class="nav-item">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <line x1="12" y1="17" x2="12.01" y2="17" />
+       </svg> Ayuda </a> <a href="#" class="nav-item">
+       <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3" /> <path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 6l-4.2 4.2M23 12h-6m-6 0H1m13.2 5.2l-4.2-4.2m0-6l-4.2-4.2" />
+       </svg> Configuración </a>
+     </div>
+    </nav>
+    <div class="sidebar-footer"><button class="sidebar-footer-btn">
+      <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /> <polyline points="16 17 21 12 16 7" /> <line x1="21" y1="12" x2="9" y2="12" />
+      </svg> Cerrar Sesión </button>
+    </div>
+   </aside><!-- Main Content Area -->
+   <div class="content-area"><!-- Topbar -->
+    <header class="topbar">
+     <div class="topbar-left"><button class="menu-toggle" id="menuToggle">
+       <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12" /> <line x1="3" y1="6" x2="21" y2="6" /> <line x1="3" y1="18" x2="21" y2="18" />
+       </svg></button>
+      <div class="search-bar">
+       <svg class="search-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8" /> <path d="m21 21-4.35-4.35" />
+       </svg><input type="text" class="search-input" placeholder="Buscar proyectos, usuarios...">
+      </div>
+     </div>
+     <div class="topbar-actions"><button class="topbar-btn">
+       <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /> <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+       </svg><span class="notification-dot"></span> </button> <button class="topbar-btn">
+       <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /> <polyline points="22,6 12,13 2,6" />
+       </svg></button> <button class="topbar-btn">
+       <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /> <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+       </svg></button>
+     </div>
+    </header><!-- Main Content -->
+    <main class="main-content"><!-- Dashboard Header -->
+     <div class="dashboard-header">
+      <h1 class="dashboard-title" id="dashboard-title">Panel de Control</h1>
+      <p class="dashboard-subtitle" id="welcome-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bienvenido a tu espacio de trabajo.</p>
+     </div><!-- Stats Grid -->
+     <div class="stats-grid">
+      <div class="stat-card">
+       <div class="stat-header"><span class="stat-label" id="stat-1-label">Total Ventas</span>
+        <div class="stat-icon-wrapper">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23" /> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+         </svg>
+        </div>
+       </div>
+       <div class="stat-value">
+        $45,231
+       </div>
+       <div class="stat-footer"><span class="stat-change positive">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15" />
+         </svg> +12.5% </span> <span class="stat-period">vs último mes</span>
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-header"><span class="stat-label" id="stat-2-label">Usuarios Activos</span>
+        <div class="stat-icon-wrapper">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M23 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+         </svg>
+        </div>
+       </div>
+       <div class="stat-value">
+        2,845
+       </div>
+       <div class="stat-footer"><span class="stat-change positive">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15" />
+         </svg> +8.2% </span> <span class="stat-period">vs último mes</span>
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-header"><span class="stat-label" id="stat-3-label">Proyectos</span>
+        <div class="stat-icon-wrapper">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+         </svg>
+        </div>
+       </div>
+       <div class="stat-value">
+        142
+       </div>
+       <div class="stat-footer"><span class="stat-change negative">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9" />
+         </svg> -3.1% </span> <span class="stat-period">vs último mes</span>
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-header"><span class="stat-label" id="stat-4-label">Tasa Conversión</span>
+        <div class="stat-icon-wrapper">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+         </svg>
+        </div>
+       </div>
+       <div class="stat-value">
+        68.3%
+       </div>
+       <div class="stat-footer"><span class="stat-change positive">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15" />
+         </svg> +5.4% </span> <span class="stat-period">vs último mes</span>
+       </div>
+      </div>
+     </div><!-- Content Grid -->
+     <div class="content-grid"><!-- Chart Card -->
+      <div class="card">
+       <div class="card-header">
+        <h3 class="card-title">Rendimiento Mensual</h3><button class="card-action">Ver Detalles</button>
+       </div>
+       <div class="chart-container">
+        <div class="chart-placeholder">
+         <div class="chart-bar"></div>
+         <div class="chart-bar"></div>
+         <div class="chart-bar"></div>
+         <div class="chart-bar"></div>
+         <div class="chart-bar"></div>
+         <div class="chart-bar"></div>
+         <div class="chart-bar"></div>
+        </div>
+       </div>
+      </div><!-- Activity Card -->
+      <div class="card">
+       <div class="card-header">
+        <h3 class="card-title">Actividad Reciente</h3><button class="card-action">Ver Todo</button>
+       </div>
+       <div class="activity-list">
+        <div class="activity-item">
+         <div class="activity-icon">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /> <circle cx="12" cy="7" r="4" />
+          </svg>
+         </div>
+         <div class="activity-content">
+          <div class="activity-title">
+           Nuevo Usuario Registrado
+          </div>
+          <div class="activity-description">
+           Lorem ipsum dolor sit amet consectetur
+          </div>
+          <div class="activity-time">
+           Hace 5 minutos
+          </div>
+         </div>
+        </div>
+        <div class="activity-item">
+         <div class="activity-icon">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+          </svg>
+         </div>
+         <div class="activity-content">
+          <div class="activity-title">
+           Proyecto Actualizado
+          </div>
+          <div class="activity-description">
+           Sed do eiusmod tempor incididunt
+          </div>
+          <div class="activity-time">
+           Hace 1 hora
+          </div>
+         </div>
+        </div>
+        <div class="activity-item">
+         <div class="activity-icon">
+          <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /> <polyline points="14 2 14 8 20 8" />
+          </svg>
+         </div>
+         <div class="activity-content">
+          <div class="activity-title">
+           Documento Compartido
+          </div>
+          <div class="activity-description">
+           Ut labore et dolore magna aliqua
+          </div>
+          <div class="activity-time">
+           Hace 3 horas
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Projects Section -->
+     <div class="card" style="padding: 2rem;">
+      <div class="card-header">
+       <h3 class="card-title" id="projects-title">Proyectos Destacados</h3><button class="card-action">Ver Todos</button>
+      </div>
+      <div class="projects-grid">
+       <div class="project-card">
+        <div class="project-image" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /> <line x1="8" y1="21" x2="16" y2="21" /> <line x1="12" y1="17" x2="12" y2="21" />
+         </svg>
+        </div>
+        <div class="project-content">
+         <div class="project-header">
+          <h4 class="project-title">Proyecto Alpha</h4><span class="project-status">En Progreso</span>
+         </div>
+         <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+         <div class="project-footer">
+          <div class="project-team">
+           <div class="team-avatar">
+            AB
+           </div>
+           <div class="team-avatar">
+            CD
+           </div>
+           <div class="team-avatar">
+            EF
+           </div>
+          </div><span class="project-progress">75%</span>
+         </div>
+        </div>
+       </div>
+       <div class="project-card">
+        <div class="project-image" style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe);">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z" /> <path d="M2 17l10 5 10-5" /> <path d="M2 12l10 5 10-5" />
+         </svg>
+        </div>
+        <div class="project-content">
+         <div class="project-header">
+          <h4 class="project-title">Proyecto Beta</h4><span class="project-status">Activo</span>
+         </div>
+         <p class="project-description">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+         <div class="project-footer">
+          <div class="project-team">
+           <div class="team-avatar">
+            GH
+           </div>
+           <div class="team-avatar">
+            IJ
+           </div>
+          </div><span class="project-progress">92%</span>
+         </div>
+        </div>
+       </div>
+       <div class="project-card">
+        <div class="project-image" style="background: linear-gradient(135deg, #ddd6fe, #c4b5fd);">
+         <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /> <line x1="2" y1="12" x2="22" y2="12" /> <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+         </svg>
+        </div>
+        <div class="project-content">
+         <div class="project-header">
+          <h4 class="project-title">Proyecto Gamma</h4><span class="project-status">Planificación</span>
+         </div>
+         <p class="project-description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
+         <div class="project-footer">
+          <div class="project-team">
+           <div class="team-avatar">
+            KL
+           </div>
+           <div class="team-avatar">
+            MN
+           </div>
+           <div class="team-avatar">
+            OP
+           </div>
+           <div class="team-avatar">
+            QR
+           </div>
+          </div><span class="project-progress">25%</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </main>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      dashboard_title: 'Panel de Control',
+      welcome_message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bienvenido a tu espacio de trabajo.',
+      stat_1_label: 'Total Ventas',
+      stat_2_label: 'Usuarios Activos',
+      stat_3_label: 'Proyectos',
+      stat_4_label: 'Tasa Conversión',
+      projects_title: 'Proyectos Destacados',
+      background_color: '#f8fafc',
+      surface_color: '#ffffff',
+      text_color: '#0f172a',
+      primary_action_color: '#2563eb',
+      secondary_action_color: '#3b82f6',
+      font_family: 'Inter',
+      font_size: 16
+    };
+
+    let config = { ...defaultConfig };
+
+    async function onConfigChange(newConfig) {
+      config = { ...config, ...newConfig };
+      
+      // Update text content
+      const dashboardTitle = document.getElementById('dashboard-title');
+      if (dashboardTitle) dashboardTitle.textContent = config.dashboard_title || defaultConfig.dashboard_title;
+      
+      const welcomeMessage = document.getElementById('welcome-message');
+      if (welcomeMessage) welcomeMessage.textContent = config.welcome_message || defaultConfig.welcome_message;
+      
+      const stat1Label = document.getElementById('stat-1-label');
+      if (stat1Label) stat1Label.textContent = config.stat_1_label || defaultConfig.stat_1_label;
+      
+      const stat2Label = document.getElementById('stat-2-label');
+      if (stat2Label) stat2Label.textContent = config.stat_2_label || defaultConfig.stat_2_label;
+      
+      const stat3Label = document.getElementById('stat-3-label');
+      if (stat3Label) stat3Label.textContent = config.stat_3_label || defaultConfig.stat_3_label;
+      
+      const stat4Label = document.getElementById('stat-4-label');
+      if (stat4Label) stat4Label.textContent = config.stat_4_label || defaultConfig.stat_4_label;
+      
+      const projectsTitle = document.getElementById('projects-title');
+      if (projectsTitle) projectsTitle.textContent = config.projects_title || defaultConfig.projects_title;
+
+      // Update colors
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+
+      document.body.style.backgroundColor = bgColor;
+      document.querySelector('.content-area').style.background = bgColor;
+      
+      document.querySelectorAll('.card, .stat-card, .topbar, .project-card').forEach(el => {
+        el.style.background = surfaceColor;
+      });
+
+      // Update fonts
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+      document.querySelectorAll('.dashboard-title, .card-title, .project-title, .logo-text').forEach(el => {
+        el.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+      });
+
+      document.querySelectorAll('body, p, .nav-item, .card-action').forEach(el => {
+        el.style.fontSize = `${fontSize}px`;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['dashboard_title', config.dashboard_title || defaultConfig.dashboard_title],
+        ['welcome_message', config.welcome_message || defaultConfig.welcome_message],
+        ['stat_1_label', config.stat_1_label || defaultConfig.stat_1_label],
+        ['stat_2_label', config.stat_2_label || defaultConfig.stat_2_label],
+        ['stat_3_label', config.stat_3_label || defaultConfig.stat_3_label],
+        ['stat_4_label', config.stat_4_label || defaultConfig.stat_4_label],
+        ['projects_title', config.projects_title || defaultConfig.projects_title]
+      ]);
+    }
+
+    // Menu toggle for mobile
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c3b57f490cb721f',t:'MTc2OTM4MTU3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="es" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sabor Divino - Restaurante</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Raleway:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'display': ['Playfair Display', 'serif'],
+            'body': ['Raleway', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .menu-card:hover {
+      transform: translateY(-8px);
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: currentColor;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-body">
+  <div id="app-wrapper" class="w-full h-full overflow-auto bg-stone-900"><!-- Navigation -->
+   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+     <div class="flex items-center justify-between"><a href="#" class="flex items-center gap-3">
+       <div class="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center">
+        <svg class="w-7 h-7 text-stone-900" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+        </svg>
+       </div><span id="nav-restaurant-name" class="font-display text-2xl font-semibold text-white">Sabor Divino</span> </a>
+      <div class="hidden md:flex items-center gap-8"><a href="#inicio" class="nav-link relative text-white/90 hover:text-amber-400 transition-colors font-medium">Inicio</a> <a href="#menu" class="nav-link relative text-white/90 hover:text-amber-400 transition-colors font-medium">Menú</a> <a href="#nosotros" class="nav-link relative text-white/90 hover:text-amber-400 transition-colors font-medium">Nosotros</a> <a href="#contacto" class="nav-link relative text-white/90 hover:text-amber-400 transition-colors font-medium">Contacto</a> <button id="reserve-btn-nav" class="px-6 py-2.5 bg-amber-500 text-stone-900 font-semibold rounded-full hover:bg-amber-400 transition-all hover:shadow-lg hover:shadow-amber-500/30"> Reservar </button>
+      </div><button id="mobile-menu-btn" class="md:hidden text-white p-2">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+       </svg></button>
+     </div>
+    </div><!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-stone-900/98 backdrop-blur-lg border-t border-white/10">
+     <div class="px-6 py-4 space-y-4"><a href="#inicio" class="block text-white/90 hover:text-amber-400 transition-colors py-2">Inicio</a> <a href="#menu" class="block text-white/90 hover:text-amber-400 transition-colors py-2">Menú</a> <a href="#nosotros" class="block text-white/90 hover:text-amber-400 transition-colors py-2">Nosotros</a> <a href="#contacto" class="block text-white/90 hover:text-amber-400 transition-colors py-2">Contacto</a> <button class="w-full px-6 py-3 bg-amber-500 text-stone-900 font-semibold rounded-full hover:bg-amber-400 transition-all"> Reservar Mesa </button>
+     </div>
+    </div>
+   </nav><!-- Hero Section -->
+   <section id="inicio" class="relative min-h-screen flex items-center justify-center overflow-hidden"><!-- Background Pattern -->
+    <div class="absolute inset-0 bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900">
+     <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23d97706&quot; fill-opacity=&quot;0.15&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"></div>
+    </div><!-- Decorative Elements -->
+    <div class="absolute top-20 left-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl animate-float delay-200"></div>
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+     <div class="animate-fade-in-up opacity-0"><span class="inline-block px-4 py-2 bg-amber-500/20 text-amber-400 rounded-full text-sm font-medium mb-6 border border-amber-500/30"> ✨ Bienvenidos a nuestra casa </span>
+     </div>
+     <h1 id="hero-title" class="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 animate-fade-in-up opacity-0 delay-100 leading-tight">Experiencia<br><span class="text-amber-400">Gastronómica</span> Única</h1>
+     <p id="hero-subtitle" class="text-xl md:text-2xl text-stone-300 mb-10 animate-fade-in-up opacity-0 delay-200 max-w-2xl mx-auto font-light">Donde cada plato cuenta una historia y cada sabor despierta emociones</p>
+     <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up opacity-0 delay-300"><a href="#menu" class="px-8 py-4 bg-amber-500 text-stone-900 font-semibold rounded-full hover:bg-amber-400 transition-all hover:shadow-xl hover:shadow-amber-500/30 flex items-center justify-center gap-2"> <span>Ver Menú</span>
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+       </svg></a> <a href="#contacto" class="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/10 transition-all flex items-center justify-center gap-2"> <span>Reservar Mesa</span> <span>📞</span> </a>
+     </div><!-- Stats -->
+     <div class="grid grid-cols-3 gap-8 mt-20 animate-fade-in-up opacity-0 delay-400">
+      <div class="text-center">
+       <div class="text-4xl md:text-5xl font-display font-bold text-amber-400">
+        15+
+       </div>
+       <div class="text-stone-400 mt-2">
+        Años de experiencia
+       </div>
+      </div>
+      <div class="text-center">
+       <div class="text-4xl md:text-5xl font-display font-bold text-amber-400">
+        50+
+       </div>
+       <div class="text-stone-400 mt-2">
+        Platos únicos
+       </div>
+      </div>
+      <div class="text-center">
+       <div class="text-4xl md:text-5xl font-display font-bold text-amber-400">
+        4.9
+       </div>
+       <div class="text-stone-400 mt-2">
+        Calificación ⭐
+       </div>
+      </div>
+     </div>
+    </div><!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+     <svg class="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+     </svg>
+    </div>
+   </section><!-- Menu Section -->
+   <section id="menu" class="py-24 bg-stone-950 relative">
+    <div class="absolute inset-0 bg-gradient-to-b from-stone-900 to-stone-950"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+     <div class="text-center mb-16"><span class="text-amber-400 font-medium tracking-wider uppercase">Nuestras Especialidades</span>
+      <h2 class="font-display text-4xl md:text-6xl font-bold text-white mt-4">Menú del Chef</h2>
+      <div class="w-24 h-1 bg-amber-500 mx-auto mt-6 rounded-full"></div>
+     </div><!-- Menu Categories -->
+     <div class="flex flex-wrap justify-center gap-4 mb-12"><button class="menu-category-btn px-6 py-2 rounded-full font-medium transition-all bg-amber-500 text-stone-900" data-category="all"> Todos </button> <button class="menu-category-btn px-6 py-2 rounded-full font-medium transition-all bg-stone-800 text-white hover:bg-amber-500 hover:text-stone-900" data-category="entradas"> Entradas </button> <button class="menu-category-btn px-6 py-2 rounded-full font-medium transition-all bg-stone-800 text-white hover:bg-amber-500 hover:text-stone-900" data-category="principales"> Principales </button> <button class="menu-category-btn px-6 py-2 rounded-full font-medium transition-all bg-stone-800 text-white hover:bg-amber-500 hover:text-stone-900" data-category="postres"> Postres </button> <button class="menu-category-btn px-6 py-2 rounded-full font-medium transition-all bg-stone-800 text-white hover:bg-amber-500 hover:text-stone-900" data-category="bebidas"> Bebidas </button>
+     </div><!-- Menu Grid -->
+     <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Menu items will be rendered here -->
+     </div>
+    </div>
+   </section><!-- About Section -->
+   <section id="nosotros" class="py-24 bg-stone-900 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-amber-500/5 to-transparent"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"><!-- Image Side -->
+      <div class="relative">
+       <div class="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-amber-500/20 to-stone-800 relative">
+        <div class="absolute inset-0 flex items-center justify-center">
+         <div class="text-center">
+          <div class="text-9xl mb-4">
+           👨‍🍳
+          </div>
+          <p class="text-amber-400 font-display text-2xl">Chef Carlos Mendoza</p>
+         </div>
+        </div>
+       </div>
+       <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-amber-500 rounded-3xl -z-10"></div>
+       <div class="absolute -top-6 -left-6 w-32 h-32 border-4 border-amber-500/30 rounded-3xl"></div>
+      </div><!-- Content Side -->
+      <div><span class="text-amber-400 font-medium tracking-wider uppercase">Conócenos</span>
+       <h2 id="about-title" class="font-display text-4xl md:text-5xl font-bold text-white mt-4 mb-6">Nuestra Historia</h2>
+       <p id="about-text" class="text-stone-300 text-lg leading-relaxed mb-8">Desde 2010, hemos dedicado cada día a crear momentos inolvidables a través de la gastronomía. Nuestro chef ejecutivo, con más de 20 años de experiencia en cocinas internacionales, fusiona tradición y modernidad en cada creación.</p>
+       <div class="grid grid-cols-2 gap-6 mb-8">
+        <div class="p-6 bg-stone-800/50 rounded-2xl border border-stone-700/50">
+         <div class="text-3xl mb-3">
+          🌿
+         </div>
+         <h4 class="text-white font-semibold mb-2">Ingredientes Frescos</h4>
+         <p class="text-stone-400 text-sm">Productos locales de la más alta calidad</p>
+        </div>
+        <div class="p-6 bg-stone-800/50 rounded-2xl border border-stone-700/50">
+         <div class="text-3xl mb-3">
+          🏆
+         </div>
+         <h4 class="text-white font-semibold mb-2">Premiados</h4>
+         <p class="text-stone-400 text-sm">Reconocidos por la crítica gastronómica</p>
+        </div>
+        <div class="p-6 bg-stone-800/50 rounded-2xl border border-stone-700/50">
+         <div class="text-3xl mb-3">
+          💚
+         </div>
+         <h4 class="text-white font-semibold mb-2">Sostenibles</h4>
+         <p class="text-stone-400 text-sm">Comprometidos con el medio ambiente</p>
+        </div>
+        <div class="p-6 bg-stone-800/50 rounded-2xl border border-stone-700/50">
+         <div class="text-3xl mb-3">
+          ❤️
+         </div>
+         <h4 class="text-white font-semibold mb-2">Con Pasión</h4>
+         <p class="text-stone-400 text-sm">Cada plato hecho con amor</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Testimonials Section -->
+   <section class="py-24 bg-gradient-to-b from-stone-950 to-stone-900">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="text-center mb-16"><span class="text-amber-400 font-medium tracking-wider uppercase">Testimonios</span>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-white mt-4">Lo que dicen nuestros clientes</h2>
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="p-8 bg-stone-800/30 rounded-3xl border border-stone-700/30 hover:border-amber-500/30 transition-all">
+       <div class="flex items-center gap-1 mb-4"><span class="text-amber-400">★★★★★</span>
+       </div>
+       <p class="text-stone-300 mb-6 italic">"Una experiencia culinaria excepcional. El risotto de mariscos es simplemente divino. El ambiente y el servicio son de primera clase."</p>
+       <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-2xl">
+         👩
+        </div>
+        <div>
+         <div class="text-white font-semibold">
+          María González
+         </div>
+         <div class="text-stone-400 text-sm">
+          Cliente frecuente
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="p-8 bg-stone-800/30 rounded-3xl border border-stone-700/30 hover:border-amber-500/30 transition-all">
+       <div class="flex items-center gap-1 mb-4"><span class="text-amber-400">★★★★★</span>
+       </div>
+       <p class="text-stone-300 mb-6 italic">"El mejor restaurante de la ciudad sin duda. Los cortes de carne son perfectos y el sommelier nos recomendó un vino espectacular."</p>
+       <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-2xl">
+         👨
+        </div>
+        <div>
+         <div class="text-white font-semibold">
+          Roberto Sánchez
+         </div>
+         <div class="text-stone-400 text-sm">
+          Crítico gastronómico
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="p-8 bg-stone-800/30 rounded-3xl border border-stone-700/30 hover:border-amber-500/30 transition-all">
+       <div class="flex items-center gap-1 mb-4"><span class="text-amber-400">★★★★★</span>
+       </div>
+       <p class="text-stone-300 mb-6 italic">"Celebramos nuestra boda aquí y fue mágico. La atención al detalle, la comida exquisita y el servicio impecable. ¡Inolvidable!"</p>
+       <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-2xl">
+         👫
+        </div>
+        <div>
+         <div class="text-white font-semibold">
+          Ana y Pedro
+         </div>
+         <div class="text-stone-400 text-sm">
+          Evento especial
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contacto" class="py-24 bg-stone-900 relative">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16"><!-- Contact Info -->
+      <div><span class="text-amber-400 font-medium tracking-wider uppercase">Contacto</span>
+       <h2 class="font-display text-4xl md:text-5xl font-bold text-white mt-4 mb-6">Reserva tu Mesa</h2>
+       <p class="text-stone-300 text-lg mb-10">Estamos listos para ofrecerte una experiencia gastronómica inolvidable. Reserva tu mesa y déjanos sorprenderte.</p>
+       <div class="space-y-6">
+        <div class="flex items-start gap-4">
+         <div class="w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center text-2xl flex-shrink-0">
+          📍
+         </div>
+         <div>
+          <h4 class="text-white font-semibold text-lg mb-1">Dirección</h4>
+          <p id="contact-address" class="text-stone-400">Av. Principal 123, Centro Histórico<br>
+           Ciudad de México, CP 06000</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4">
+         <div class="w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center text-2xl flex-shrink-0">
+          📞
+         </div>
+         <div>
+          <h4 class="text-white font-semibold text-lg mb-1">Teléfono</h4>
+          <p id="contact-phone" class="text-stone-400">+52 55 1234 5678</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4">
+         <div class="w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center text-2xl flex-shrink-0">
+          🕐
+         </div>
+         <div>
+          <h4 class="text-white font-semibold text-lg mb-1">Horario</h4>
+          <p class="text-stone-400">Lunes a Jueves: 13:00 - 23:00<br>
+            Viernes a Domingo: 12:00 - 00:00</p>
+         </div>
+        </div>
+       </div><!-- Social Media -->
+       <div class="mt-10">
+        <p class="text-white font-semibold mb-4">Síguenos</p>
+        <div class="flex gap-4"><a href="#" class="w-12 h-12 rounded-full bg-stone-800 flex items-center justify-center text-white hover:bg-amber-500 hover:text-stone-900 transition-all">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+           <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+          </svg></a> <a href="#" class="w-12 h-12 rounded-full bg-stone-800 flex items-center justify-center text-white hover:bg-amber-500 hover:text-stone-900 transition-all">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+           <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z" />
+          </svg></a> <a href="#" class="w-12 h-12 rounded-full bg-stone-800 flex items-center justify-center text-white hover:bg-amber-500 hover:text-stone-900 transition-all">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+           <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+          </svg></a>
+        </div>
+       </div>
+      </div><!-- Reservation Form -->
+      <div class="bg-stone-800/30 rounded-3xl p-8 md:p-10 border border-stone-700/30">
+       <h3 class="font-display text-2xl font-bold text-white mb-6">Hacer Reservación</h3>
+       <form id="reservation-form" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <div><label for="name" class="block text-white font-medium mb-2">Nombre completo</label> <input type="text" id="name" required class="w-full px-4 py-3 bg-stone-900/50 border border-stone-700 rounded-xl text-white placeholder-stone-500 focus:outline-none focus:border-amber-500 transition-colors" placeholder="Tu nombre">
+         </div>
+         <div><label for="email" class="block text-white font-medium mb-2">Email</label> <input type="email" id="email" required class="w-full px-4 py-3 bg-stone-900/50 border border-stone-700 rounded-xl text-white placeholder-stone-500 focus:outline-none focus:border-amber-500 transition-colors" placeholder="tu@email.com">
+         </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <div><label for="date" class="block text-white font-medium mb-2">Fecha</label> <input type="date" id="date" required class="w-full px-4 py-3 bg-stone-900/50 border border-stone-700 rounded-xl text-white focus:outline-none focus:border-amber-500 transition-colors">
+         </div>
+         <div><label for="time" class="block text-white font-medium mb-2">Hora</label> <select id="time" required class="w-full px-4 py-3 bg-stone-900/50 border border-stone-700 rounded-xl text-white focus:outline-none focus:border-amber-500 transition-colors"> <option value="">Seleccionar hora</option> <option value="13:00">13:00</option> <option value="14:00">14:00</option> <option value="15:00">15:00</option> <option value="19:00">19:00</option> <option value="20:00">20:00</option> <option value="21:00">21:00</option> <option value="22:00">22:00</option> </select>
+         </div>
+        </div>
+        <div><label for="guests" class="block text-white font-medium mb-2">Número de personas</label> <select id="guests" required class="w-full px-4 py-3 bg-stone-900/50 border border-stone-700 rounded-xl text-white focus:outline-none focus:border-amber-500 transition-colors"> <option value="">Seleccionar</option> <option value="1">1 persona</option> <option value="2">2 personas</option> <option value="3">3 personas</option> <option value="4">4 personas</option> <option value="5">5 personas</option> <option value="6">6 personas</option> <option value="7+">7+ personas</option> </select>
+        </div>
+        <div><label for="message" class="block text-white font-medium mb-2">Notas especiales (opcional)</label> <textarea id="message" rows="3" class="w-full px-4 py-3 bg-stone-900/50 border border-stone-700 rounded-xl text-white placeholder-stone-500 focus:outline-none focus:border-amber-500 transition-colors resize-none" placeholder="Alergias, celebraciones, preferencias..."></textarea>
+        </div><button type="submit" class="w-full py-4 bg-amber-500 text-stone-900 font-bold rounded-xl hover:bg-amber-400 transition-all hover:shadow-xl hover:shadow-amber-500/30 flex items-center justify-center gap-2"> <span>Confirmar Reservación</span>
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+         </svg></button>
+       </form><!-- Success Message -->
+       <div id="success-message" class="hidden mt-6 p-6 bg-green-500/20 border border-green-500/30 rounded-xl text-center">
+        <div class="text-4xl mb-3">
+         ✅
+        </div>
+        <h4 class="text-green-400 font-semibold text-lg mb-2">¡Reservación Enviada!</h4>
+        <p class="text-stone-300">Te contactaremos pronto para confirmar tu reservación.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="bg-stone-950 py-12 border-t border-stone-800">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+       <div class="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center">
+        <svg class="w-6 h-6 text-stone-900" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+        </svg>
+       </div><span id="footer-restaurant-name" class="font-display text-xl font-semibold text-white">Sabor Divino</span>
+      </div>
+      <p class="text-stone-500 text-center">© 2024 Sabor Divino. Todos los derechos reservados.</p>
+      <div class="flex items-center gap-6 text-stone-400 text-sm"><a href="#" class="hover:text-amber-400 transition-colors">Privacidad</a> <a href="#" class="hover:text-amber-400 transition-colors">Términos</a>
+      </div>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      restaurant_name: 'Sabor Divino',
+      hero_title: 'Experiencia Gastronómica Única',
+      hero_subtitle: 'Donde cada plato cuenta una historia y cada sabor despierta emociones',
+      about_title: 'Nuestra Historia',
+      about_text: 'Desde 2010, hemos dedicado cada día a crear momentos inolvidables a través de la gastronomía. Nuestro chef ejecutivo, con más de 20 años de experiencia en cocinas internacionales, fusiona tradición y modernidad en cada creación.',
+      address: 'Av. Principal 123, Centro Histórico\nCiudad de México, CP 06000',
+      phone: '+52 55 1234 5678',
+      background_color: '#1c1917',
+      surface_color: '#292524',
+      text_color: '#d6d3d1',
+      primary_action_color: '#f59e0b',
+      secondary_action_color: '#78716c'
+    };
+
+    // Menu data
+    const menuItems = [
+      { id: 1, name: 'Carpaccio de Res', description: 'Finas láminas de res con rúcula, parmesano y aceite de trufa', price: '$185', category: 'entradas', emoji: '🥩' },
+      { id: 2, name: 'Ceviche Peruano', description: 'Pescado fresco marinado en limón con cebolla morada y cilantro', price: '$165', category: 'entradas', emoji: '🐟' },
+      { id: 3, name: 'Bruschetta Caprese', description: 'Pan artesanal con tomate, mozzarella fresca y albahaca', price: '$125', category: 'entradas', emoji: '🍅' },
+      { id: 4, name: 'Rib Eye Premium', description: '400g de corte premium con guarnición de vegetales asados', price: '$450', category: 'principales', emoji: '🥩' },
+      { id: 5, name: 'Risotto de Mariscos', description: 'Arroz arborio cremoso con camarones, pulpo y mejillones', price: '$320', category: 'principales', emoji: '🦐' },
+      { id: 6, name: 'Salmón en Costra', description: 'Salmón atlántico con costra de hierbas y salsa de champagne', price: '$385', category: 'principales', emoji: '🍣' },
+      { id: 7, name: 'Tiramisú Clásico', description: 'Receta tradicional italiana con mascarpone y café espresso', price: '$145', category: 'postres', emoji: '🍰' },
+      { id: 8, name: 'Crème Brûlée', description: 'Crema de vainilla con caramelo crujiente', price: '$135', category: 'postres', emoji: '🍮' },
+      { id: 9, name: 'Vino de la Casa', description: 'Selección del sommelier - tinto, blanco o rosado', price: '$95', category: 'bebidas', emoji: '🍷' },
+      { id: 10, name: 'Coctelería Premium', description: 'Negroni, Old Fashioned, Margarita y más', price: '$165', category: 'bebidas', emoji: '🍸' },
+    ];
+
+    let currentCategory = 'all';
+
+    // Render menu items
+    function renderMenu(category = 'all') {
+      const grid = document.getElementById('menu-grid');
+      const filtered = category === 'all' ? menuItems : menuItems.filter(item => item.category === category);
+      
+      grid.innerHTML = filtered.map(item => `
+        <div class="menu-card bg-stone-800/30 rounded-2xl p-6 border border-stone-700/30 hover:border-amber-500/30 transition-all duration-300 cursor-pointer group" data-category="${item.category}">
+          <div class="flex items-start justify-between mb-4">
+            <div class="text-5xl">${item.emoji}</div>
+            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-sm font-semibold">${item.price}</span>
+          </div>
+          <h3 class="font-display text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">${item.name}</h3>
+          <p class="text-stone-400 text-sm leading-relaxed">${item.description}</p>
+          <button class="mt-4 w-full py-2 border border-amber-500/30 text-amber-400 rounded-lg hover:bg-amber-500 hover:text-stone-900 transition-all text-sm font-medium">
+            Ordenar
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // Category filter buttons
+    document.querySelectorAll('.menu-category-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.menu-category-btn').forEach(b => {
+          b.classList.remove('bg-amber-500', 'text-stone-900');
+          b.classList.add('bg-stone-800', 'text-white');
+        });
+        btn.classList.remove('bg-stone-800', 'text-white');
+        btn.classList.add('bg-amber-500', 'text-stone-900');
+        
+        currentCategory = btn.dataset.category;
+        renderMenu(currentCategory);
+      });
+    });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    const appWrapper = document.getElementById('app-wrapper');
+    
+    appWrapper.addEventListener('scroll', () => {
+      if (appWrapper.scrollTop > 50) {
+        navbar.classList.add('bg-stone-900/95', 'backdrop-blur-lg', 'shadow-lg');
+        navbar.classList.remove('bg-transparent');
+      } else {
+        navbar.classList.remove('bg-stone-900/95', 'backdrop-blur-lg', 'shadow-lg');
+        navbar.classList.add('bg-transparent');
+      }
+    });
+
+    // Reservation form
+    const reservationForm = document.getElementById('reservation-form');
+    const successMessage = document.getElementById('success-message');
+    
+    reservationForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      reservationForm.classList.add('hidden');
+      successMessage.classList.remove('hidden');
+      
+      setTimeout(() => {
+        reservationForm.reset();
+        reservationForm.classList.remove('hidden');
+        successMessage.classList.add('hidden');
+      }, 5000);
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    });
+
+    // Update UI based on config
+    function onConfigChange(config) {
+      const c = { ...defaultConfig, ...config };
+      
+      // Update text content
+      document.getElementById('nav-restaurant-name').textContent = c.restaurant_name;
+      document.getElementById('footer-restaurant-name').textContent = c.restaurant_name;
+      
+      const heroTitle = document.getElementById('hero-title');
+      heroTitle.innerHTML = c.hero_title.replace(/\n/g, '<br>');
+      
+      document.getElementById('hero-subtitle').textContent = c.hero_subtitle;
+      document.getElementById('about-title').textContent = c.about_title;
+      document.getElementById('about-text').textContent = c.about_text;
+      document.getElementById('contact-address').innerHTML = c.address.replace(/\n/g, '<br>');
+      document.getElementById('contact-phone').textContent = c.phone;
+      
+      // Apply colors to relevant elements
+      document.getElementById('app-wrapper').style.backgroundColor = c.background_color;
+    }
+
+    // Capabilities for color editing
+    function mapToCapabilities(config) {
+      const c = { ...defaultConfig, ...config };
+      
+      return {
+        recolorables: [
+          {
+            get: () => c.background_color,
+            set: (value) => {
+              c.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => c.surface_color,
+            set: (value) => {
+              c.surface_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => c.text_color,
+            set: (value) => {
+              c.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => c.primary_action_color,
+            set: (value) => {
+              c.primary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => c.secondary_action_color,
+            set: (value) => {
+              c.secondary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    // Map config to edit panel values
+    function mapToEditPanelValues(config) {
+      const c = { ...defaultConfig, ...config };
+      return new Map([
+        ['restaurant_name', c.restaurant_name],
+        ['hero_title', c.hero_title],
+        ['hero_subtitle', c.hero_subtitle],
+        ['about_title', c.about_title],
+        ['about_text', c.about_text],
+        ['address', c.address],
+        ['phone', c.phone]
+      ]);
+    }
+
+    // Initialize
+    renderMenu();
+    
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    } else {
+      onConfigChange(defaultConfig);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c3b9b0ea6f82604',t:'MTc2OTM4NDMyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
