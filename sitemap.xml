@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lohanysa.github.io/Plantillas_web/</loc>
   </url>
+  <url>
+    <loc>https://lohanysa.github.io/Plantillas_web/Plantillas/simple/simple.html</loc>
+  </url>
+  <url>
+    <loc>https://lohanysa.github.io/Plantillas_web/Plantillas/moderno/moderno.html</loc>
+  </url>
+  <url>
+    <loc>https://lohanysa.github.io/Plantillas_web/Plantillas/profesional/profesional.html</loc>
+  </url>
+  <url>
+    <loc>https://lohanysa.github.io/Plantillas_web/Plantillas/galeria/galeria.html</loc>
+  </url>
+  <url>
+    <loc>https://lohanysa.github.io/Plantillas_web/Plantillas/tailwind/restaurante/restaurante.html</loc>
+  </url>
+  <url>
+    <loc>https://lohanysa.github.io/Plantillas_web/Plantillas/tailwind/Venta_producto/producto.html</loc>
+  </url>
+  <url>
+    <loc>https://lohanysa.github.io/Plantillas_web/Plantillas/boostrap/animals.html</loc>
+  </url>
+  <url>
+    <loc>https://lohanysa.github.io/Plantillas_web/Plantillas/js/belleza.html</loc>
+  </url>
 </urlset>
+
