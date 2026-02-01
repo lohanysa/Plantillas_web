@@ -1,2 +1,2 @@
-# Plantillas_web
-Plantillas 1web sencillas y gratis, utilizando boostrap, css, tailwind.
+# DEMO:
+https://lohanysa.github.io/Plantillas_web/
